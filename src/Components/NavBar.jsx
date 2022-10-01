@@ -3,22 +3,24 @@ import { Link } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
 const NavBar = () => {
   return (
-    <Navbar bg="light" variant="light">
+    <Navbar bg="dark" variant="dark">
       <Container>
         <Navbar.Brand to="/" as={Link}>
           E-Commerce
         </Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link to="/login" as={Link}>
-            Login
-          </Nav.Link>
-          <Nav.Link to="/purchases" as={Link}>
-            Purchases
-          </Nav.Link>
-          <Nav.Link to="/cart" as={Link}>
-            Cart
-          </Nav.Link>
-        </Nav>
+        <Navbar.Collapse>
+          <Nav className="me-auto">
+            <Nav.Link to="/login" as={Link}>
+              Login
+            </Nav.Link>
+            <Nav.Link to="/purchases" as={Link}>
+              Purchases
+            </Nav.Link>
+            <Nav.Link to="/cart" as={Link}>
+              Cart
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
 

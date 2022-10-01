@@ -5,15 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 
-const Product = () => {
+const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
   const navigate = useNavigate();
+
+  useEffect(() => {}, []);
 
   return (
     <div>
       Product
       <ul>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <li
             key={product.id}
             onClick={() => navigate(`/product/${product.id}`)}

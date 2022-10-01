@@ -10,6 +10,7 @@ export const productSlice = createSlice({
     setProducts: (state, action) => {
       return action.payload;
     },
+
   },
 });
 
@@ -21,6 +22,6 @@ export const getProductsThunk = () => (dispatch) => {
     .finally(() => dispatch(setIsLoading(false)));
 };
 
-export const { setProducts } = productSlice.actions;
+export const { setProducts, setFilteredProducts } = productSlice.actions;
 
 export default productSlice.reducer;
