@@ -25,7 +25,11 @@ const Categories = ({ setFilteredProducts, filteredProducts }) => {
   };
 
   const filterByPrice = () => {
-    alert("buscando productos de más de " + min + " y menos de " + max);
+    const filtered = products.filter(
+      (product) =>
+        product.price > parseInt(min) && product.price < parseInt(max)
+    );
+    setFilteredProducts(filtered);
   };
 
   return (

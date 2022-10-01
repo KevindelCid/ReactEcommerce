@@ -2,6 +2,11 @@
   width: 400px;
   height: 300px;
 }
+
+body {
+  overflow-x: hidden !important;
+}
+
 img {
   height: 300px;
   object-fit: contain;
@@ -29,11 +34,16 @@ li {
   border: none !important;
 }
 
-
-
-
-
 .navbar-position {
   z-index: 1000;
   position: fixed;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.search-input {
+  max-width: 400px !important;
+  min-width: 350px !important;
 }

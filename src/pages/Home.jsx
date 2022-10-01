@@ -34,34 +34,33 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <Container className="container-fluid">
-        <Row>
-          <Col xs={6} md={2}>
-            <aside>
-              <Categories
-                setFilteredProducts={setFilteredProducts}
-                filteredProducts={filteredProducts}
-              />
-            </aside>
-          </Col>
-          <Col  xs={12} md={10}>
-            <InputGroup className="mb-3">
-              <Form.Control
-                placeholder="Search Products"
-                onChange={(e) => setSearchValue(e.target.value)}
-                value={searchValue}
-              />
-            </InputGroup>
+    <Row>
+      <Col xs={6} md={2} className="col-sm">
+        <aside className="filters">
+          <Categories
+            setFilteredProducts={setFilteredProducts}
+            filteredProducts={filteredProducts}
+          />
+        </aside>
+      </Col>
 
-            <Products
-              filteredProducts={filteredProducts}
-              setProductFiltered={setFilteredProducts}
-            />
-          </Col>
-        </Row>
-      </Container>
-    </div>
+      <Col xs={12} md={10} className="abs-center">
+        {/* //buscador */}
+        <InputGroup className="m-3 flex-row">
+          <Form.Control
+            className="search-input d-flex justify-content-center"
+            placeholder="Search Products"
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
+          />
+        </InputGroup>
+
+        <Products
+          filteredProducts={filteredProducts}
+          setProductFiltered={setFilteredProducts}
+        />
+      </Col>
+    </Row>
   );
 };
 
