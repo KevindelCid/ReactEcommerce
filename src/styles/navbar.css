@@ -1,0 +1,8 @@
+.notify-pop {
+  background-color: red !important;
+  border-radius: 100%;
+  height: 15px;
+  width: 15px;
+  padding: 0px !important;
+  line-height: inherit !important;
+}

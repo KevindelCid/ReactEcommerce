@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import store from "./store";
 import { Provider } from "react-redux";
-import "bootswatch/dist/lux/bootstrap.min.css";
+import "bootswatch/dist/cosmo/bootstrap.min.css";
 //lux
 //lumen
 //litera

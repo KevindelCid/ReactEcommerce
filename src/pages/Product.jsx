@@ -64,16 +64,16 @@ const Product = () => {
       <h1>{product?.title}</h1>
       <Carousel className="carrousel-container">
         {product?.productImgs.map((img) => (
-          <Carousel.Item interval={2000} key={img}>
+          <Carousel.Item interval={3000} key={img}>
             <img
               className=" img-product-selected"
               src={img}
               alt="First slide"
             />
-            <Carousel.Caption>
+            {/* <Carousel.Caption>
               <h3>First slide label</h3>
               <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
+            </Carousel.Caption> */}
           </Carousel.Item>
         ))}
       </Carousel>
@@ -85,8 +85,8 @@ const Product = () => {
             //   <b>{prod.title}</b>
             // </button>
 
-            <Col>
-              <Card
+            <Col >
+              <Card 
                 onClick={() => navigate(`/product/${prod.id}`)}
                 style={{ width: "18rem" }}
               >
@@ -96,7 +96,11 @@ const Product = () => {
                   src={prod?.productImgs}
                 />
                 <Card.Body>
-                  <Card.Title>{prod.title}</Card.Title>
+                  <Card.Title>
+                    {prod.title.length > 17
+                      ? `${prod.title.substring(0, 17)}...`
+                      : prod.title}
+                  </Card.Title>
                 </Card.Body>
               </Card>
             </Col>
@@ -108,10 +112,6 @@ const Product = () => {
         <h2>Quizás te interese</h2>
         <Row>
           {generateRelationSearch().map((prod) => (
-            // <button type="" onClick={() => navigate(`/product/${prod.id}`)}>
-            //   <b>{prod.title}</b>
-            // </button>
-
             <Col>
               <Card
                 onClick={() => navigate(`/product/${prod.id}`)}
@@ -123,7 +123,11 @@ const Product = () => {
                   src={prod?.productImgs}
                 />
                 <Card.Body>
-                  <Card.Title>{prod.title}</Card.Title>
+                  <Card.Title>
+                    {prod.title.length > 17
+                      ? `${prod.title.substring(0, 17)}...`
+                      : prod.title}
+                  </Card.Title>
                 </Card.Body>
               </Card>
             </Col>

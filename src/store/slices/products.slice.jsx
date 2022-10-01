@@ -10,16 +10,19 @@ export const productSlice = createSlice({
     setProducts: (state, action) => {
       return action.payload;
     },
-
   },
 });
 
 export const getProductsThunk = () => (dispatch) => {
+  document.body.style.overflow = "hidden";
   dispatch(setIsLoading(true));
   axios
     .get("https://ecommerce-api-react.herokuapp.com/api/v1/products")
     .then((res) => dispatch(setProducts(res.data.data.products)))
-    .finally(() => dispatch(setIsLoading(false)));
+    .finally(() => {
+      dispatch(setIsLoading(false));
+      document.body.style.overflow = "auto";
+    });
 };
 
 export const { setProducts, setFilteredProducts } = productSlice.actions;
