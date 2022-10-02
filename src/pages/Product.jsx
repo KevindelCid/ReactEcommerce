@@ -9,6 +9,7 @@ import { addProduct } from "../store/slices/cart.slice";
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [quantity, setQuantity] = useState(1);
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
@@ -85,7 +86,7 @@ const Product = () => {
           onSelect={handleSelect}
         >
           {product?.productImgs.map((img, index) => (
-            <Carousel.Item interval={3000} key={img + index}>
+            <Carousel.Item interval={3000} key={img}>
               <img
                 className=" img-product-selected"
                 src={img}
@@ -111,16 +112,36 @@ const Product = () => {
             <div className="contador">
               <span className="quantity">Quantity</span>
               <br />
-              <button>-</button>
-              <input type="text" className="input" />
-              <button>+</button>
+              <div className="div-contador">
+                <button
+                  className="menos"
+                  onClick={() => {
+                    if (!quantity < 1) setQuantity(quantity - 1);
+                  }}
+                >
+                  -
+                </button>
+
+                <input
+                  type="text"
+                  className="input"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
+                <button
+                  className="mas"
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
           <div className="buttom-cart">
             <button
               className="buttom-add"
               onClick={() => {
-                addQuantityProducts(5);
+                addQuantityProducts(quantity);
               }}
             >
               Add to cart
@@ -129,21 +150,22 @@ const Product = () => {
         </div>
       </section>
 
-      <h2 className="title-section">Articulos realcionados</h2>
-      <section className="articulos-relacionados-container">
+      <h2 className="title-section ">Articulos realcionados</h2>
+      <section className="articulos-relacionados-container secundary-card">
         {relatedPorducts.map((prod, index) => (
-          <Card key={prod.id} style={{ width: "18rem" }}>
+          <Card className="shadow" key={prod.id} style={{ width: "18rem" }}>
             <Card.Img
               onClick={() => {
                 navigate(`/product/${prod.id}`);
                 window.scrollTo(0, 0);
               }}
               variant="top"
-              className="img-product-selected"
+              className="img-product-selected secundary-img click"
               src={prod?.productImgs}
             />
             <Card.Body>
               <Card.Title
+                className="click"
                 onClick={() => {
                   navigate(`/product/${prod.id}`);
                   window.scrollTo(0, 0);
@@ -153,24 +175,30 @@ const Product = () => {
                   ? `${prod.title.substring(0, 17)}...`
                   : prod.title}
               </Card.Title>
-              <span>Price</span>
-              <h3>${prod.price}</h3>
-              <Button
-                onClick={() => {
-                  dispatch(addProduct(prod));
-                }}
-                className="add-cart-on-card"
-              >
-                <FontAwesomeIcon icon={faCartShopping} />
-              </Button>
+              <div className="price-cart">
+                <div>
+                  <span>Price</span>
+                  <h3>${prod.price}</h3>
+                </div>
+                <Button
+                  onClick={() => {
+                    dispatch(addProduct(prod));
+                  }}
+                  className="add-cart-on-card"
+                >
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         ))}
       </section>
       <h2 className="title-section">Quizás te interese</h2>
-      <section className="articulos-relacionados-container">
+      <section className="articulos-relacionados-container  secundary-card">
         {generateRelationSearch().map((prod) => (
           <Card
+            className="shadow"
+            key={prod.id}
             onClick={() => {
               navigate(`/product/${prod.id}`);
               window.scrollTo(0, 0);
@@ -179,25 +207,29 @@ const Product = () => {
           >
             <Card.Img
               variant="top"
-              className="img-product-selected"
+              className="img-product-selected secundary-img click"
               src={prod?.productImgs}
             />
             <Card.Body>
-              <Card.Title>
+              <Card.Title className="click">
                 {prod.title.length > 17
                   ? `${prod.title.substring(0, 17)}...`
                   : prod.title}
               </Card.Title>
-              <span>Price</span>
-              <h3>${prod.price}</h3>
-              <Button
-                onClick={() => {
-                  dispatch(addProduct(producto));
-                }}
-                className="add-cart-on-card"
-              >
-                <FontAwesomeIcon icon={faCartShopping} />
-              </Button>
+              <div className="price-cart">
+                <div>
+                  <span>Price</span>
+                  <h3>${prod.price}</h3>
+                </div>
+                <Button
+                  onClick={() => {
+                    dispatch(addProduct(prod));
+                  }}
+                  className="add-cart-on-card"
+                >
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         ))}

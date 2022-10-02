@@ -49,6 +49,11 @@
 
 .input {
   width: 50px;
+
+  width: 60px;
+  height: 30px;
+  border: none;
+  text-align: center;
 }
 
 .quantity {
@@ -84,4 +89,31 @@
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 20px;
+}
+
+.menos {
+  border: none;
+  width: 30px;
+  height: 30px;
+}
+
+.mas {
+  border: none;
+  width: 30px;
+  height: 30px;
+}
+
+.div-contador {
+  margin-top: 8px;
+}
+
+.price-cart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.shadow {
+  box-shadow: 9px 8px 5px -5px rgba(0, 0, 0, 0.32);
+  -webkit-box-shadow: 9px 8px 5px -5px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: 9px 8px 5px -5px rgba(0, 0, 0, 0.32);
 }

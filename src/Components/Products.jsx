@@ -23,14 +23,15 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
       <div className="contaniner-products">
         {filteredProducts.map((product) => (
           <div key={product.id}>
-            <Card style={{ width: "18rem" }}>
+            <Card className="shadow" style={{ width: "18rem" }}>
               <Card.Img
+              className="click"
                 onClick={() => navigate(`/product/${product.id}`)}
                 variant="top"
                 src={product.productImgs[0]}
               />
               <Card.Body>
-                <Card.Title onClick={() => navigate(`/product/${product.id}`)}>
+                <Card.Title className="click" onClick={() => navigate(`/product/${product.id}`)}>
                   {" "}
                   {product.title?.length > 20
                     ? `${product.title.substring(0, 20)}...`

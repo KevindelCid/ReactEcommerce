@@ -176,6 +176,18 @@ li {
   width: 40px !important;
   height: 40px !important;
 }
+.secundary-card {
+  width: 150px;
+  width: 100% !important;
+}
+
+.secundary-img {
+  height: 100px;
+}
+
+.click {
+  cursor: pointer;
+}
 
 @media only screen and (max-width: 820px) {
   .categories-section {
