@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { Button, Card, Carousel, Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
+import { addProduct } from "../store/slices/cart.slice";
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
+  const dispatch = useDispatch();
+
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   // console.log(product);
 
@@ -61,12 +69,21 @@ const Product = () => {
     );
     return result;
   };
+
+  const addQuantityProducts = (quantity) => {
+    for (let i = 0; i < quantity; i++) {
+      dispatch(addProduct(product));
+    }
+  };
+
   return (
     <Container>
-      
       <section className="product-detail-container">
-
-        <Carousel className="carrousel-container">
+        <Carousel
+          className="carrousel-container"
+          activeIndex={index}
+          onSelect={handleSelect}
+        >
           {product?.productImgs.map((img, index) => (
             <Carousel.Item interval={3000} key={img + index}>
               <img
@@ -78,13 +95,18 @@ const Product = () => {
           ))}
         </Carousel>
         <div className="description">
-          <h1><strong>{product?.title}</strong></h1>
+          <h1>
+            <strong>{product?.title}</strong>
+          </h1>
           <p>{product?.description}</p>
           <div className="flex">
             <div className="precio">
               <span className="price">Price</span>
               <br />
-              <span className="amount"> <strong>${product?.price}</strong></span>
+              <span className="amount">
+                {" "}
+                <strong>${product?.price}</strong>
+              </span>
             </div>
             <div className="contador">
               <span className="quantity">Quantity</span>
@@ -93,101 +115,92 @@ const Product = () => {
               <input type="text" className="input" />
               <button>+</button>
             </div>
-            
-
-
           </div>
           <div className="buttom-cart">
-              <button className="buttom-add">Add to cart</button>
-            </div>
+            <button
+              className="buttom-add"
+              onClick={() => {
+                addQuantityProducts(5);
+              }}
+            >
+              Add to cart
+            </button>
+          </div>
         </div>
-      </section>  
+      </section>
 
       <h2 className="title-section">Articulos realcionados</h2>
       <section className="articulos-relacionados-container">
-     
-       
-          {relatedPorducts.map((prod, index) => (
-            
-              <Card key={prod.id}
+        {relatedPorducts.map((prod, index) => (
+          <Card key={prod.id} style={{ width: "18rem" }}>
+            <Card.Img
+              onClick={() => {
+                navigate(`/product/${prod.id}`);
+                window.scrollTo(0, 0);
+              }}
+              variant="top"
+              className="img-product-selected"
+              src={prod?.productImgs}
+            />
+            <Card.Body>
+              <Card.Title
                 onClick={() => {
                   navigate(`/product/${prod.id}`);
                   window.scrollTo(0, 0);
                 }}
-                style={{ width: "18rem" }}
               >
-                <Card.Img
-                  variant="top"
-                  className="img-product-selected"
-                  src={prod?.productImgs}
-                />
-                <Card.Body>
-                  <Card.Title>
-                    {prod.title.length > 17
-                      ? `${prod.title.substring(0, 17)}...`
-                      : prod.title}
-                  </Card.Title>
-                    <span>Price</span>
-                    <h3>${prod.price}</h3>
-                    <Button
-                      onClick={() => {
-                        dispatch(addProduct(producto));
-                        
-                      }}
-                      className="add-cart-on-card"
-                    >
-                      <FontAwesomeIcon icon={faCartShopping} />
-                    </Button>
-                </Card.Body>
-              </Card>
-          ))}
+                {prod.title.length > 17
+                  ? `${prod.title.substring(0, 17)}...`
+                  : prod.title}
+              </Card.Title>
+              <span>Price</span>
+              <h3>${prod.price}</h3>
+              <Button
+                onClick={() => {
+                  dispatch(addProduct(prod));
+                }}
+                className="add-cart-on-card"
+              >
+                <FontAwesomeIcon icon={faCartShopping} />
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
       </section>
-
-      <section>
-        <h2>Quizás te interese</h2>
-        <Row>
-          {generateRelationSearch().map((prod) => (
-            <Col key={prod.id}>
-              <Card
+      <h2 className="title-section">Quizás te interese</h2>
+      <section className="articulos-relacionados-container">
+        {generateRelationSearch().map((prod) => (
+          <Card
+            onClick={() => {
+              navigate(`/product/${prod.id}`);
+              window.scrollTo(0, 0);
+            }}
+            style={{ width: "18rem" }}
+          >
+            <Card.Img
+              variant="top"
+              className="img-product-selected"
+              src={prod?.productImgs}
+            />
+            <Card.Body>
+              <Card.Title>
+                {prod.title.length > 17
+                  ? `${prod.title.substring(0, 17)}...`
+                  : prod.title}
+              </Card.Title>
+              <span>Price</span>
+              <h3>${prod.price}</h3>
+              <Button
                 onClick={() => {
-                  navigate(`/product/${prod.id}`);
-                  window.scrollTo(0, 0);
+                  dispatch(addProduct(producto));
                 }}
-                style={{ width: "18rem" }}
+                className="add-cart-on-card"
               >
-                <Card.Img
-                  variant="top"
-                  className="img-product-selected"
-                  src={prod?.productImgs}
-                />
-                <Card.Body>
-                  <Card.Title>
-                    {prod.title.length > 17
-                      ? `${prod.title.substring(0, 17)}...`
-                      : prod.title}
-                  </Card.Title>
-                  <Row>
-                  <Col>
-                    <span>Price</span>
-                    <h3>${prod.price}</h3>
-                  </Col>
-                  <Col xs={6} md={3}>
-                    <Button
-                      onClick={() => {
-                        dispatch(addProduct(producto));
-                        
-                      }}
-                      className="add-cart-on-card"
-                    >
-                      <FontAwesomeIcon icon={faCartShopping} />
-                    </Button>
-                  </Col>
-                </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+                <FontAwesomeIcon icon={faCartShopping} />
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
       </section>
     </Container>
   );

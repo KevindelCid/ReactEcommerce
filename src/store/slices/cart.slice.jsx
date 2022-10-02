@@ -7,6 +7,8 @@ export const cartSlice = createSlice({
   initialState: [],
   reducers: {
     addProduct: (state, action) => {
+      // estoy tentado a volarme la funcionalidad para que en el carrito solo cuente los productos no repetidos y que los repetidos pos los ponga juntos mediante un nuevo campo llamado quantity
+
       console.log(action.payload);
       Toast.fire({
         icon: "success",
