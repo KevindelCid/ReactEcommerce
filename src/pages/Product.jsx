@@ -8,6 +8,7 @@ import "../styles/products.css";
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [quantity, setQuantity] = useState (0)
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
@@ -89,9 +90,16 @@ const Product = () => {
             <div className="contador">
               <span className="quantity">Quantity</span>
               <br />
-              <button>-</button>
-              <input type="text" className="input" />
-              <button>+</button>
+              <div className="div-contador">
+                <button className="menos" onClick={() => {
+                  if (!quantity < 1)
+                  setQuantity(quantity - 1)}}>-</button>
+
+
+              <input type="text" className="input" value={quantity} /> 
+              <button className="mas" onClick={() => setQuantity(quantity + 1)}>+</button>
+              </div>
+              
             </div>
             
 

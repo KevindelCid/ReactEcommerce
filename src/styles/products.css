@@ -36,11 +36,14 @@ padding: 50px;
 }
 
 .input{
-  width: 50px;
+  width: 60px;
+  height: 30px;
+  border: none;
 }
 
 .quantity{
   font-size: 18px;
+  
 }
 
 .price{
@@ -65,4 +68,20 @@ padding: 50px;
   background-color: red;
   color: white;
   border: none;
+}
+
+.menos{
+  border: none;
+  width: 30px;
+  height: 30px;
+}
+
+.mas{
+  border: none;
+  width: 30px;
+  height: 30px;
+}
+
+.div-contador{
+  margin-top: 8px;
 }
