@@ -61,32 +61,26 @@ const Product = () => {
   };
   return (
     <div>
-      <h1>{product?.title}</h1>
-      <Carousel className="carrousel-container">
-        {product?.productImgs.map((img) => (
-          <Carousel.Item interval={3000} key={img}>
-            <img
-              className=" img-product-selected"
-              src={img}
-              alt="First slide"
-            />
-            {/* <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption> */}
-          </Carousel.Item>
-        ))}
-      </Carousel>
+      <section className="product-detail-container">
+        <h1>{product?.title}</h1>
+        <Carousel className="carrousel-container">
+          {product?.productImgs.map((img) => (
+            <Carousel.Item interval={3000} key={img}>
+              <img
+                className=" img-product-selected"
+                src={img}
+                alt="First slide"
+              />
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </section>
       <section>
         <h2>Articulos realcionados</h2>
         <Row>
           {relatedPorducts.map((prod) => (
-            // <button type="" onClick={() => navigate(`/product/${prod.id}`)}>
-            //   <b>{prod.title}</b>
-            // </button>
-
-            <Col >
-              <Card 
+            <Col>
+              <Card
                 onClick={() => navigate(`/product/${prod.id}`)}
                 style={{ width: "18rem" }}
               >
