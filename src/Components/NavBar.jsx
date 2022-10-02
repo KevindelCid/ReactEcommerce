@@ -31,27 +31,31 @@ const NavBar = () => {
     //   </Container>
     // </Navbar>
 
-    <Navbar collapseOnSelect expand="lg" bg="dark" className="navbar-position" variant="dark">
-      <Container>
-        <Navbar.Brand to="/" as={Link}>
-          E-Commerce
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link to="/login" as={Link}>
-              Login
-            </Nav.Link>
-            <Nav.Link to="/purchases" as={Link}>
-              Purchases
-            </Nav.Link>
-            <Nav.Link to="/cart" as={Link}>
-              <FontAwesomeIcon icon={faCartShopping} />
-              <span className="notify-pop badge text-bg">+9</span>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      className="p-l p-r navbar-position fixed-top"
+      variant="dark"
+    >
+      <Navbar.Brand to="/" as={Link}>
+        E-Commerce
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto">
+          <Nav.Link to="/login" as={Link}>
+            Login
+          </Nav.Link>
+          <Nav.Link to="/purchases" as={Link}>
+            Purchases
+          </Nav.Link>
+          <Nav.Link to="/cart" as={Link}>
+            <FontAwesomeIcon icon={faCartShopping} />
+            <span className="notify-pop badge text-bg">+9</span>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   );
 };

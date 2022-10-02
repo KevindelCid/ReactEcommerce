@@ -1,9 +1,12 @@
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Categories from "../Components/Categories";
+import FilterSide from "../Components/FilterSide";
 import Products from "../Components/Products";
 import { getProductsThunk } from "../store/slices/products.slice";
 
@@ -12,9 +15,11 @@ const Home = () => {
   const products = useSelector((state) => state.products);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [isVisibleFilterSide, setIsVisibleFilterSide] = useState(false);
 
   useEffect(() => {
     setFilteredProducts(products);
+  
   }, [products]);
 
   useEffect(() => {
@@ -26,41 +31,59 @@ const Home = () => {
       product.title.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredProducts(filtered);
+
   };
   // console.log(products);
   const searchProducts = () => {
     if (searchValue === "") setFilteredProducts(products);
     else filteredByName();
+    setIsVisibleFilterSide(false);
+  };
+
+  const showFilterSide = () => {
+    setIsVisibleFilterSide(true);
   };
 
   return (
-    <Row>
-      <Col xs={6} md={2} className="col-sm">
+    <main className="home-container">
+      {isVisibleFilterSide && (
+        <FilterSide
+          setIsVisibleFilterSide={setIsVisibleFilterSide}
+          setFilteredProducts={setFilteredProducts}
+          filteredProducts={filteredProducts}
+        />
+      )}
+      <section className="categories-section">
         <aside className="filters">
           <Categories
             setFilteredProducts={setFilteredProducts}
             filteredProducts={filteredProducts}
+            setIsVisibleFilterSide={setIsVisibleFilterSide}
           />
         </aside>
-      </Col>
-
-      <Col xs={12} md={10} className="abs-center">
+      </section>
+      <section className="products-section">
         {/* //buscador */}
-        <InputGroup className="m-3 flex-row">
-          <Form.Control
+        <section className="search-container">
+          <input
             className="search-input d-flex justify-content-center"
             placeholder="Search Products"
             onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
           />
-        </InputGroup>
+          <button onClick={showFilterSide} className="button-filters">
+            Filters
+            <FontAwesomeIcon icon={faFilter} />
+          </button>
+          <small>{`${filteredProducts.length} items found`}</small>
+        </section>
 
         <Products
           filteredProducts={filteredProducts}
           setProductFiltered={setFilteredProducts}
         />
-      </Col>
-    </Row>
+      </section>
+    </main>
   );
 };
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Accordion, Button, Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
-const Categories = ({ setFilteredProducts, filteredProducts }) => {
+const Categories = ({ setFilteredProducts, setIsVisibleFilterSide }) => {
   const [categories, setCategories] = useState([]);
   const products = useSelector((state) => state.products);
   const [min, setMin] = useState("");
@@ -22,18 +22,20 @@ const Categories = ({ setFilteredProducts, filteredProducts }) => {
       (product) => product.category.id === categoryId
     );
     setFilteredProducts(filtered);
+    setIsVisibleFilterSide(false);
   };
 
   const filterByPrice = () => {
     const filtered = products.filter(
       (product) =>
-        product.price > parseInt(min) && product.price < parseInt(max)
+        product.price >= parseInt(min) && product.price <= parseInt(max)
     );
     setFilteredProducts(filtered);
+    setIsVisibleFilterSide(false);
   };
 
   return (
-    <div>
+    <div className=" categories-container">
       <Accordion alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Categories</Accordion.Header>

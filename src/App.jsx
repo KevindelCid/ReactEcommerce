@@ -22,6 +22,7 @@ function App() {
     <HashRouter>
       <NavBar />
       {isLoading && <LoadingScreen />}
+      <div className="space"></div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />

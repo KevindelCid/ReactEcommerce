@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
@@ -11,24 +12,34 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
 
   useEffect(() => {}, []);
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   return (
-    <Container>
-      Product
-      <Row>
+    <section className="section-products">
+      <h2>Explore our products</h2>
+     
+      <div className="contaniner-products">
         {filteredProducts.map((product) => (
-          <Col className="m-2" key={product.id}>
+          <div key={product.id}>
             <Card style={{ width: "18rem" }}>
               <Card.Img
-                className="link"
                 onClick={() => navigate(`/product/${product.id}`)}
                 variant="top"
                 src={product.productImgs[0]}
               />
               <Card.Body>
-                <Card.Title
-                  className="link"
-                  onClick={() => navigate(`/product/${product.id}`)}
-                >
+                <Card.Title onClick={() => navigate(`/product/${product.id}`)}>
+                  {" "}
                   {product.title?.length > 20
                     ? `${product.title.substring(0, 20)}...`
                     : product.title}
@@ -42,17 +53,25 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                     <h3>${product.price}</h3>
                   </Col>
                   <Col xs={6} md={3}>
-                    <Button className="add-cart-on-card">
+                    <Button
+                      onClick={() =>
+                        Toast.fire({
+                          icon: "success",
+                          title: "Add to cart",
+                        })
+                      }
+                      className="add-cart-on-card"
+                    >
                       <FontAwesomeIcon icon={faCartShopping} />
                     </Button>
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
-          </Col>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </section>
   );
 };
 
