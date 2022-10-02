@@ -1,4 +1,68 @@
 .img-product-selected {
   object-fit: cover;
   width: 90%;
+  height: 425px;
+}
+
+.product-detail-container{
+  display: flex;
+
+ 
+
+  
+}
+.carrousel-container{
+  width: 50%;
+padding: 50px;
+}
+
+.description{
+  width: 50%;
+  padding: 50px;
+}
+
+.flex{
+  display: flex;
+}
+
+.precio{
+  width: 50%;
+
+}
+
+.contador{
+  width: 50%;
+  
+}
+
+.input{
+  width: 50px;
+}
+
+.quantity{
+  font-size: 18px;
+}
+
+.price{
+  font-size: 18px;
+}
+
+.amount{
+  font-size: 25px;
+}
+
+.buttom-cart{
+  display: flex;
+  justify-content: center;
+  border: none;
+  
+}
+.buttom-add{
+  
+  width: 100%;
+  height: 50px;
+  margin-top: 30px;
+  background-color: red;
+  color: white;
+  border: none;
 }
