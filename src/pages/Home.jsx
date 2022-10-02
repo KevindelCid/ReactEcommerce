@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Categories from "../Components/Categories";
 import FilterSide from "../Components/FilterSide";
 import Products from "../Components/Products";
+import { addProduct } from "../store/slices/cart.slice";
 import { getProductsThunk } from "../store/slices/products.slice";
 
 const Home = () => {
@@ -16,10 +17,11 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isVisibleFilterSide, setIsVisibleFilterSide] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+   
     setFilteredProducts(products);
-  
   }, [products]);
 
   useEffect(() => {
@@ -31,7 +33,6 @@ const Home = () => {
       product.title.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredProducts(filtered);
-
   };
   // console.log(products);
   const searchProducts = () => {

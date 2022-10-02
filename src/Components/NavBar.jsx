@@ -4,8 +4,10 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/navbar.css";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const counterCart = useSelector((state) => state.cart);
   return (
     // <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     //   <Container>
@@ -52,7 +54,9 @@ const NavBar = () => {
           </Nav.Link>
           <Nav.Link to="/cart" as={Link}>
             <FontAwesomeIcon icon={faCartShopping} />
-            <span className="notify-pop badge text-bg">+9</span>
+            <span className="notify-pop badge text-bg">
+              {counterCart.length > 9 ? `+9` : counterCart.length}
+            </span>
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
