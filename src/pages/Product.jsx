@@ -64,8 +64,8 @@ const Product = () => {
       <section className="product-detail-container">
         <h1>{product?.title}</h1>
         <Carousel className="carrousel-container">
-          {product?.productImgs.map((img) => (
-            <Carousel.Item interval={3000} key={img}>
+          {product?.productImgs.map((img, index) => (
+            <Carousel.Item interval={3000} key={img + index}>
               <img
                 className=" img-product-selected"
                 src={img}
@@ -78,10 +78,13 @@ const Product = () => {
       <section>
         <h2>Articulos realcionados</h2>
         <Row>
-          {relatedPorducts.map((prod) => (
-            <Col>
+          {relatedPorducts.map((prod, index) => (
+            <Col key={prod.id}>
               <Card
-                onClick={() => navigate(`/product/${prod.id}`)}
+                onClick={() => {
+                  navigate(`/product/${prod.id}`);
+                  window.scrollTo(0, 0);
+                }}
                 style={{ width: "18rem" }}
               >
                 <Card.Img
@@ -106,9 +109,12 @@ const Product = () => {
         <h2>Quizás te interese</h2>
         <Row>
           {generateRelationSearch().map((prod) => (
-            <Col>
+            <Col key={prod.id}>
               <Card
-                onClick={() => navigate(`/product/${prod.id}`)}
+                onClick={() => {
+                  navigate(`/product/${prod.id}`);
+                  window.scrollTo(0, 0);
+                }}
                 style={{ width: "18rem" }}
               >
                 <Card.Img

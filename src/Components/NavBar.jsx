@@ -52,7 +52,7 @@ const NavBar = () => {
           <Nav.Link to="/purchases" as={Link}>
             Purchases
           </Nav.Link>
-          <Nav.Link to="/cart" as={Link}>
+          <Nav.Link onClick={() => alert("abriendo el carrito")}>
             <FontAwesomeIcon icon={faCartShopping} />
             <span className="notify-pop badge text-bg">
               {counterCart.length > 9 ? `+9` : counterCart.length}
