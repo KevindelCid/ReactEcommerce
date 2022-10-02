@@ -101,13 +101,15 @@ const Product = () => {
               <button className="buttom-add">Add to cart</button>
             </div>
         </div>
-      </section>
-      <section>
-        <h2>Articulos realcionados</h2>
-        <Row>
+      </section>  
+
+      <h2 className="title-section">Articulos realcionados</h2>
+      <section className="articulos-relacionados-container">
+     
+       
           {relatedPorducts.map((prod, index) => (
-            <Col key={prod.id}>
-              <Card
+            
+              <Card key={prod.id}
                 onClick={() => {
                   navigate(`/product/${prod.id}`);
                   window.scrollTo(0, 0);
@@ -125,12 +127,8 @@ const Product = () => {
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
                   </Card.Title>
-                  <Row>
-                  <Col>
                     <span>Price</span>
                     <h3>${prod.price}</h3>
-                  </Col>
-                  <Col xs={6} md={3}>
                     <Button
                       onClick={() => {
                         dispatch(addProduct(producto));
@@ -140,13 +138,9 @@ const Product = () => {
                     >
                       <FontAwesomeIcon icon={faCartShopping} />
                     </Button>
-                  </Col>
-                </Row>
                 </Card.Body>
               </Card>
-            </Col>
           ))}
-        </Row>
       </section>
 
       <section>
