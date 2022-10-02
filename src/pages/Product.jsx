@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Button, Card, Carousel, Col, Row } from "react-bootstrap";
+import { Button, Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
 const Product = () => {
   const navigate = useNavigate();
@@ -60,9 +62,10 @@ const Product = () => {
     return result;
   };
   return (
-    <div>
+    <Container>
+      
       <section className="product-detail-container">
-        <h1>{product?.title}</h1>
+
         <Carousel className="carrousel-container">
           {product?.productImgs.map((img) => (
             <Carousel.Item interval={3000} key={img}>
@@ -74,6 +77,30 @@ const Product = () => {
             </Carousel.Item>
           ))}
         </Carousel>
+        <div className="description">
+          <h1><strong>{product?.title}</strong></h1>
+          <p>{product?.description}</p>
+          <div className="flex">
+            <div className="precio">
+              <span className="price">Price</span>
+              <br />
+              <span className="amount"> <strong>${product?.price}</strong></span>
+            </div>
+            <div className="contador">
+              <span className="quantity">Quantity</span>
+              <br />
+              <button>-</button>
+              <input type="text" className="input" />
+              <button>+</button>
+            </div>
+            
+
+
+          </div>
+          <div className="buttom-cart">
+              <button className="buttom-add">Add to cart</button>
+            </div>
+        </div>
       </section>
       <section>
         <h2>Articulos realcionados</h2>
@@ -95,6 +122,23 @@ const Product = () => {
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
                   </Card.Title>
+                  <Row>
+                  <Col>
+                    <span>Price</span>
+                    <h3>${prod.price}</h3>
+                  </Col>
+                  <Col xs={6} md={3}>
+                    <Button
+                      onClick={() => {
+                        dispatch(addProduct(producto));
+                        
+                      }}
+                      className="add-cart-on-card"
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </Button>
+                  </Col>
+                </Row>
                 </Card.Body>
               </Card>
             </Col>
@@ -122,13 +166,30 @@ const Product = () => {
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
                   </Card.Title>
+                  <Row>
+                  <Col>
+                    <span>Price</span>
+                    <h3>${prod.price}</h3>
+                  </Col>
+                  <Col xs={6} md={3}>
+                    <Button
+                      onClick={() => {
+                        dispatch(addProduct(producto));
+                        
+                      }}
+                      className="add-cart-on-card"
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </Button>
+                  </Col>
+                </Row>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
       </section>
-    </div>
+    </Container>
   );
 };
 
