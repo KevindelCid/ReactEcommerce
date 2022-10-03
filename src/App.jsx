@@ -10,13 +10,25 @@ import Purchases from "./pages/Purchases";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsThunk } from "./store/slices/products.slice";
 import "../src/App.css";
+import ProtectedRoutes from "./Components/ProtectedRoutes";
+import { setUser } from "./store/slices/user.slice";
 
 function App() {
   const isLoading = useSelector((state) => state.isLoading);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProductsThunk());
+    const localUser = JSON.parse(localStorage.getItem("user"))
+    if(localUser) dispatch(setUser(localUser))
+  
   }, []);
+
+
+
+
+  
+
+
 
   return (
     <HashRouter>
@@ -27,7 +39,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/purchases" element={<Purchases />} />
+        <Route element={<ProtectedRoutes />}>
+              <Route path="/purchases" element={<Purchases />} />
+        </Route>
+    
         <Route path="/cart" element={<Cart />} />
       </Routes>
     </HashRouter>

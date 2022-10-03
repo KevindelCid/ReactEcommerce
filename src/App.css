@@ -93,6 +93,9 @@ li {
 .categories-section {
   width: 30%;
   flex-grow: 1;
+  top: 60px;
+  position: sticky;
+  height: fit-content;
 }
 .products-section {
   width: 100%;
@@ -140,12 +143,15 @@ li {
   display: flex;
   top: 0;
   right: 0;
+
   z-index: 1105;
 }
 .filterside-main {
   display: flex;
   flex-direction: row;
   background-color: rgba(0, 0, 0, 0.24);
+
+
 }
 /* 
 @media only screen and (max-width: 1512px) {
@@ -187,6 +193,16 @@ li {
 
 .click {
   cursor: pointer;
+}
+
+.login-container{
+  display: flex;
+  height: 100vh;
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%; 
+  align-items: flex-start;
+  
 }
 
 @media only screen and (max-width: 820px) {
