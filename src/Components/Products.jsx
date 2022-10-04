@@ -26,7 +26,10 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
             <Card className="shadow" style={{ width: "18rem" }}>
               <Card.Img
               className="click"
-                onClick={() => navigate(`/product/${product.id}`)}
+              onClick={() => {
+                navigate(`/product/${product.id}`);
+                window.scrollTo(0, 0);
+              }}
                 variant="top"
                 src={product.productImgs[0]}
               />
