@@ -7,13 +7,13 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import  { setUser } from "../store/slices/user.slice";
+import { setUser } from "../store/slices/user.slice";
 
 const Login = () => {
   const [inputType, setinputType] = useState("password");
   const { register, handleSubmit } = useForm();
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submit = (data) => {
     axios
@@ -22,22 +22,19 @@ const Login = () => {
         data
       )
       .then((res) => {
-        
+        dispatch(setUser(res.data.data));
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+        localStorage.setItem("token", JSON.stringify(res.data.data.token));
 
-        dispatch(setUser(res.data.data))
-        localStorage.setItem('user', JSON.stringify(res.data.data) );
-        
-       
-        navigate('/')
-
-      
-      }).catch(err =>{
+        navigate("/");
+      })
+      .catch((err) => {
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Incorrect email or password',
+          icon: "error",
+          title: "Oops...",
+          text: "Incorrect email or password",
           // footer: '<a href="">Why do I have this issue?</a>'
-        })
+        });
       });
   };
 

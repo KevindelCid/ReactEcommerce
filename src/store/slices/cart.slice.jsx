@@ -14,7 +14,14 @@ export const cartSlice = createSlice({
         icon: "success",
         title: "Add to cart",
       });
+      // localStorage.setItem("cart", JSON.stringify([...state, action.payload]));
       return [...state, action.payload];
+    },
+    deleteProduct: (state, action) => {
+      const index = action.payload;
+      const result = state.filter((item, index1) => index1 !== index);
+      // localStorage.setItem("cart", JSON.stringify(result));
+      return result;
     },
   },
 });
@@ -33,6 +40,6 @@ const Toast = Swal.mixin({
 
 export const setAddProductsThunk = () => (dispatch) => {};
 
-export const { addProduct } = cartSlice.actions;
+export const { addProduct, deleteProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

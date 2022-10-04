@@ -5,10 +5,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import CartSide from "../Components/CartSide";
 import Categories from "../Components/Categories";
 import FilterSide from "../Components/FilterSide";
 import Products from "../Components/Products";
 import { addProduct } from "../store/slices/cart.slice";
+import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import { getProductsThunk } from "../store/slices/products.slice";
 
 const Home = () => {
@@ -17,10 +19,10 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isVisibleFilterSide, setIsVisibleFilterSide] = useState(false);
+  const isVisibleCart = useSelector((state) => state.cartVisible);
   const dispatch = useDispatch();
 
   useEffect(() => {
-   
     setFilteredProducts(products);
   }, [products]);
 
@@ -47,6 +49,8 @@ const Home = () => {
 
   return (
     <main className="home-container">
+      {isVisibleCart && <CartSide />}
+
       {isVisibleFilterSide && (
         <FilterSide
           setIsVisibleFilterSide={setIsVisibleFilterSide}
