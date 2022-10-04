@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { deleteCart, migrateLocalCart } from "../store/slices/cart.slice";
+import { deleteCart, getCartThunk, migrateLocalCart } from "../store/slices/cart.slice";
 import { setUser } from "../store/slices/user.slice";
 
 const Login = () => {
@@ -84,6 +84,7 @@ dispatch(migrateLocalCart(productsCart))
 
 
       dispatch(deleteCart())
+
       swalWithBootstrapButtons.fire(
         'Cancelled',
         'Your imaginary file is safe :)',

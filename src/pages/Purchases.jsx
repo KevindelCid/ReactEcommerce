@@ -15,14 +15,16 @@ const Purchases = () => {
     <div>
       <h1>My purchases</h1>
       {purchases.map((purchase) => (
-        <ul key={purchase.cart.id}>
+        
+        <ul key={purchase.id}>
+          {console.log(purchase)}
           <li>
             <h2> {moment(purchase.createdAt).format("MMMM D, YYYY LT")}</h2>
             {purchase.cart.products.map(product => (
-              <>
+              <div key={product.id}>
                 <p>{product.title}</p>
                 <p>${product.price}</p>
-              </>
+              </div>
 
             ))}
             {/* [opcional] hacer esto un componente dentro de este mismo archivo y poner un total de la compra */}

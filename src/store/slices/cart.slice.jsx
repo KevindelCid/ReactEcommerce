@@ -9,8 +9,7 @@ export const cartSlice = createSlice({
   initialState: [],
   reducers: {
     addProduct: (state, action) => {
-      // estoy tentado a volarme la funcionalidad para que en el carrito solo cuente los productos no repetidos y que los repetidos pos los ponga juntos mediante un nuevo campo llamado quantity
-
+     
       console.log(action.payload);
       Toast.fire({
         icon: "success",
@@ -43,6 +42,46 @@ export const cartSlice = createSlice({
       })
       return newCart
 
+    },
+    getCart: (state, action)=>{
+      return action.payload
+    },
+    addSameProduct: (state, action)=>{
+
+
+      const data = [...state]
+      const element = action.payload
+      
+
+      let counter = element.quantity
+      counter ++
+
+
+  //  const res =  data.map((item, index) => item.id === element.id)
+   
+  // //  {
+      
+  //       // if(item.id === element.id){
+  //       //   // data.splice(index)
+  //       //   // return {id: element.id, quantity: counter}
+  
+  //       //   return data
+
+  //       // }      
+  //     } )
+      // console.log(res)
+      // console.log(data)
+
+        // data.push(data)
+      
+      
+      Toast.fire({
+        icon: "success",
+        title: "Add to cart",
+      });
+
+      // localStorage.setItem("cart", JSON.stringify([...state, action.payload]));
+      // return   data;
     }
   },
 });
@@ -59,8 +98,15 @@ const Toast = Swal.mixin({
   },
 });
 
-export const setAddProductsThunk = () => (dispatch) => { };
+export const getCartThunk = () => (dispatch) => { 
 
-export const { addProduct, deleteProduct, deleteCart, migrateLocalCart } = cartSlice.actions;
+  axios
+  .get('https://ecommerce-api-react.herokuapp.com/api/v1/cart', 
+   getConfig())
+  .then(res => dispatch(getCart(res.data.data.cart.products)))
+
+};
+
+export const { addProduct, getCart, deleteProduct, deleteCart, migrateLocalCart, addSameProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;

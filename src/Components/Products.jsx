@@ -5,13 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { addProduct } from "../store/slices/cart.slice";
+import { addProduct, addSameProduct } from "../store/slices/cart.slice";
 
 const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = localStorage.getItem('user')
+  const cart = useSelector(state => state.cart)
 
   useEffect(() => {}, []);
 
@@ -52,7 +53,32 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                   <Col xs={6} md={3}>
                     <Button
                       onClick={() => {
-                        if(user) alert('el usuario esta logeado actuo diferente')
+                        if(user) {
+                         
+                          const result = cart.find(item=> item?.id === product?.id)
+                          
+
+                          if(result === undefined){
+                            dispatch(addProduct({id: product.id, quantity: 1}))
+                          }
+                          else{
+
+                            const results = {id: result.id, quantity: result.quantity+1}
+                              
+                          const index = cart.findIndex(x=>x.id === results.id)
+                             
+
+                          const cartFake = cart;
+                          console.log(cartFake)
+                              cartFake.splice(index)
+                              cartFake.push(results)
+                              dispatch(addProduct(cart))
+                            // dispatch(addSameProduct(results))
+                          }
+
+
+
+                        }
                         else dispatch(addProduct(product));
                         
                       }}
