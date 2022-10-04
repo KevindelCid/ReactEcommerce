@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { HashRouter, Link, Route, Routes } from "react-router-dom";
 import LoadingScreen from "./Components/LoadingScreen";
 import NavBar from "./Components/NavBar";
-import Cart from "./pages/Cart";
+import Cart from "./Components/Cart";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Product from "./pages/Product";

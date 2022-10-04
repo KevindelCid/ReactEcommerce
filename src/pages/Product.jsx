@@ -12,6 +12,18 @@ const Product = () => {
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
+<<<<<<< HEAD
+=======
+  const dispatch = useDispatch();
+
+  const [index, setIndex] = useState(0);
+
+  const user = localStorage.getItem('user')
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+>>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
 
   // console.log(product);
 
@@ -106,8 +118,21 @@ const Product = () => {
 
           </div>
           <div className="buttom-cart">
+<<<<<<< HEAD
               <button className="buttom-add">Add to cart</button>
             </div>
+=======
+            <button
+              className="buttom-add"
+              onClick={() => {
+                if(user) alert('el usuario esta logeado actuo diferente')
+                else addQuantityProducts(quantity);
+              }}
+            >
+              Add to cart
+            </button>
+          </div>
+>>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
         </div>
       </section>
       <section>
@@ -119,6 +144,7 @@ const Product = () => {
                 onClick={() => navigate(`/product/${prod.id}`)}
                 style={{ width: "18rem" }}
               >
+<<<<<<< HEAD
                 <Card.Img
                   variant="top"
                   className="img-product-selected"
@@ -152,6 +178,30 @@ const Product = () => {
             </Col>
           ))}
         </Row>
+=======
+                {prod.title.length > 17
+                  ? `${prod.title.substring(0, 17)}...`
+                  : prod.title}
+              </Card.Title>
+              <div className="price-cart">
+                <div>
+                  <span>Price</span>
+                  <h3>${prod.price}</h3>
+                </div>
+                <Button
+                  onClick={() => {
+                    if(user) alert('el usuario esta logeado actuo diferente')
+                    else dispatch(addProduct(prod));
+                  }}
+                  className="add-cart-on-card"
+                >
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        ))}
+>>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
       </section>
 
       <section>

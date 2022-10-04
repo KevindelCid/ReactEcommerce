@@ -79,6 +79,63 @@ const Categories = ({ setFilteredProducts, setIsVisibleFilterSide }) => {
             </Button>
           </Accordion.Body>
         </Accordion.Item>
+
+
+
+
+        <Accordion.Item eventKey="2">
+          <Accordion.Header>Advance filter</Accordion.Header>
+          <Accordion.Body>
+         <h2>Advance Search</h2>
+         
+            <Form.Control
+              className="m-1"
+              size="sm"
+              type="text"
+              placeholder="Key words"
+            
+              onChange={(e) => setMin(e.target.value)}
+            />
+            <label htmlFor="min-advance">Add price for serch:</label>
+          <div className="search-advance-price">
+            <Form.Control
+              className="m-1"
+              size="sm"
+              id="min-advance"
+              type="number"
+              placeholder="Set min price"
+              value={min}
+              onChange={(e) => setMin(e.target.value)}
+            />
+            <Form.Control
+              className="m-1"
+              size="sm"
+              type="number"
+              placeholder="Set max price"
+              value={max}
+              onChange={(e) => setMax(e.target.value)}
+            />
+</div>
+<label htmlFor="">Select a category</label>
+<br />
+<select>
+              {categories.map((category) => (
+                <option
+                  className="li-on-acordion"
+                  key={category.id}
+                  onClick={() => filterByCategory(category.id)}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <br />
+
+            <Button className="m-1" onClick={() => filterByPrice(min, max)}>
+              Search parameters
+            </Button>
+          </Accordion.Body>
+        </Accordion.Item>
       </Accordion>
     </div>
   );

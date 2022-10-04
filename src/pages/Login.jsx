@@ -4,17 +4,35 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Card, Form, Nav } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+<<<<<<< HEAD
 import  { setUser } from "../store/slices/user.slice";
 import "../styles/login.css";
+=======
+import { deleteCart, migrateLocalCart } from "../store/slices/cart.slice";
+import { setUser } from "../store/slices/user.slice";
+>>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
 
 const Login = () => {
   const [inputType, setinputType] = useState("password");
   const { register, handleSubmit } = useForm();
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+const cart = useSelector(state => state.cart)
+
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+  
+
+
 
   const submit = (data) => {
     axios
@@ -23,23 +41,81 @@ const Login = () => {
         data
       )
       .then((res) => {
+<<<<<<< HEAD
+=======
+        dispatch(setUser(res.data.data));
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+        localStorage.setItem("token", JSON.stringify(res.data.data.token));
+
+        navigate("/");
+
+
+
+/// soolo si hay elementos en carrito
+if(cart.length !== 0) {
+  swalWithBootstrapButtons.fire({
+    title: 'Keep products in cart?',
+    text: "There is a list of products in your cart before login, do you want to keep those products in your cart?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, keep cart',
+    cancelButtonText: 'No, delete cart',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      const elements = cart.filter((item, index) => cart.indexOf(item) === index);
+
+  const productsCart = elements.map((product) => {
+    let count = 0;
+    cart.map((item) => {
+      if (product.id === item.id) {
+        count += 1;
+      }
+    });
+    return { product, count };
+  });
+  
+
+dispatch(migrateLocalCart(productsCart))
+
+
+
+
+      swalWithBootstrapButtons.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+
+      dispatch(deleteCart())
+      swalWithBootstrapButtons.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+    }
+  })
+}
+>>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
 
         
 
-        dispatch(setUser(res.data.data))
-        localStorage.setItem('user', JSON.stringify(res.data.data) );
-        
-       
-        navigate('/')
 
-      
-      }).catch(err =>{
+
+
+
+
+      })
+      .catch((err) => {
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Incorrect email or password',
+          icon: "error",
+          title: "Oops...",
+          text: "Incorrect email or password",
           // footer: '<a href="">Why do I have this issue?</a>'
-        })
+        });
       });
   };
 
