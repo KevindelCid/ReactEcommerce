@@ -11,6 +11,7 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = localStorage.getItem('user')
 
   useEffect(() => {}, []);
 
@@ -51,7 +52,8 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                   <Col xs={6} md={3}>
                     <Button
                       onClick={() => {
-                        dispatch(addProduct(product));
+                        if(user) alert('el usuario esta logeado actuo diferente')
+                        else dispatch(addProduct(product));
                         
                       }}
                       className="add-cart-on-card"

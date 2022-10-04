@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import Swal from "sweetalert2";
+import getConfig from "../../../utils";
 
 // Cambiamos isLoadingSlice por el nombre de nuestro slice (usersSlice, toDosSlice...)
 export const cartSlice = createSlice({
@@ -23,6 +25,25 @@ export const cartSlice = createSlice({
       // localStorage.setItem("cart", JSON.stringify(result));
       return result;
     },
+    deleteCart: () => {
+      return []
+    },
+    migrateLocalCart: (state, action) => {
+      const products = action.payload
+      const newCart = products.map(item => {
+        return { id: item.product.id, quantity: item.count }
+      })
+      console.log(newCart)
+
+      newCart.map(item => {
+        axios
+        .post('https://ecommerce-api-react.herokuapp.com/api/v1/cart', item, getConfig())
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+      })
+      return newCart
+
+    }
   },
 });
 
@@ -38,8 +59,8 @@ const Toast = Swal.mixin({
   },
 });
 
-export const setAddProductsThunk = () => (dispatch) => {};
+export const setAddProductsThunk = () => (dispatch) => { };
 
-export const { addProduct, deleteProduct } = cartSlice.actions;
+export const { addProduct, deleteProduct, deleteCart, migrateLocalCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

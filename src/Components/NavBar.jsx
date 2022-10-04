@@ -7,6 +7,7 @@ import "../styles/navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/slices/user.slice";
 import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
+import { deleteCart } from "../store/slices/cart.slice";
 
 const NavBar = () => {
   const counterCart = useSelector((state) => state.cart);
@@ -16,7 +17,9 @@ const NavBar = () => {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     dispatch(setUser({}));
+    dispatch(deleteCart())
     navigate("/");
   };
 

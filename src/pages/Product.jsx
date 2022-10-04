@@ -17,6 +17,8 @@ const Product = () => {
 
   const [index, setIndex] = useState(0);
 
+  const user = localStorage.getItem('user')
+
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
@@ -141,7 +143,8 @@ const Product = () => {
             <button
               className="buttom-add"
               onClick={() => {
-                addQuantityProducts(quantity);
+                if(user) alert('el usuario esta logeado actuo diferente')
+                else addQuantityProducts(quantity);
               }}
             >
               Add to cart
@@ -182,7 +185,8 @@ const Product = () => {
                 </div>
                 <Button
                   onClick={() => {
-                    dispatch(addProduct(prod));
+                    if(user) alert('el usuario esta logeado actuo diferente')
+                    else dispatch(addProduct(prod));
                   }}
                   className="add-cart-on-card"
                 >
