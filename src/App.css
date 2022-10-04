@@ -78,7 +78,7 @@ li {
   flex-direction: column;
 }
 .space {
-  height: 80px;
+  height: 55px;
 }
 .p-f {
   position: fixed;
@@ -195,7 +195,7 @@ li {
   cursor: pointer;
 }
 
-.login-container{
+/*.login-container{
   display: flex;
   height: 100vh;
   margin: 0 auto;
@@ -203,7 +203,7 @@ li {
   width: 100%; 
   align-items: flex-start;
   
-}
+}*/
 
 @media only screen and (max-width: 820px) {
   .categories-section {

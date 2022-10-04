@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import  { setUser } from "../store/slices/user.slice";
+import "../styles/login.css";
 
 const Login = () => {
   const [inputType, setinputType] = useState("password");
@@ -22,6 +23,7 @@ const Login = () => {
         data
       )
       .then((res) => {
+
         
 
         dispatch(setUser(res.data.data))
@@ -44,7 +46,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <section className="form-login-container">
-        <Card>
+        <Card className="card">
           <Card.Header>
             <Nav variant="tabs" defaultActiveKey="#first">
               <Nav.Item>
