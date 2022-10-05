@@ -62,14 +62,8 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link
-            disabled={isLoadingCart}
-            onClick={() => dispatch(setIsCartVisible(true))}
-          >
-            <FontAwesomeIcon icon={faCartShopping} />
-            <span className="notify-pop badge text-bg">
-              {counterCart.length > 9 ? `+9` : counterCart.length}
-            </span>
+          <Nav.Link to="/" as={Link}>
+            Home
           </Nav.Link>
 
           {user.token !== undefined ? (
@@ -92,6 +86,15 @@ const NavBar = () => {
               </Nav.Link>
             </>
           )}
+          <Nav.Link
+            disabled={isLoadingCart}
+            onClick={() => dispatch(setIsCartVisible(true))}
+          >
+            <FontAwesomeIcon icon={faCartShopping} />
+            <span className="notify-pop badge text-bg">
+              {counterCart.length > 9 ? `+9` : counterCart.length}
+            </span>
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

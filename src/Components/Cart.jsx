@@ -39,12 +39,16 @@ const Cart = () => {
 
       return (
         <>
-          {products.map((product) => (
-            <ul key={product.id}>
-              {console.log(product)}
-              <CartProduct product={product.product} count={product.quantity} />
-            </ul>
-          ))}
+          {" "}
+          <ul>
+            {products.map((product, index) => (
+              <CartProduct
+                key={index}
+                product={product.product}
+                count={product.quantity}
+              />
+            ))}
+          </ul>{" "}
         </>
       );
     } else {
@@ -60,7 +64,7 @@ const Cart = () => {
             <h3> hay un total de {cart.length} productos</h3>
             <h3>{productsCart.length} de ellos son diferentes</h3>
             {productsCart.map((product, index) => (
-              <ul key={index}>
+              <ul key={product.id}>
                 <CartProduct product={product.product} count={product.count} />
               </ul>
             ))}{" "}

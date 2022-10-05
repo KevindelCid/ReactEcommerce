@@ -1,4 +1,6 @@
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState } from "react";
@@ -13,7 +15,11 @@ import {
   migrateLocalCart,
 } from "../store/slices/cart.slice";
 import { setIsLoadingCart } from "../store/slices/isLoadingCart.slice";
+
+import "../styles/login.css";
+
 import { setUser } from "../store/slices/user.slice";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [inputType, setinputType] = useState("password");
@@ -72,7 +78,55 @@ const Login = () => {
                   return { product, count };
                 });
 
+                /// soolo si hay elementos en carrito
+                if (cart.length !== 0) {
+                  swalWithBootstrapButtons
+                    .fire({
+                      title: "Keep products in cart?",
+                      text: "There is a list of products in your cart before login, do you want to keep those products in your cart?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Yes, keep cart",
+                      cancelButtonText: "No, delete cart",
+                      reverseButtons: true,
+                    })
+                    .then((result) => {
+                      if (result.isConfirmed) {
+                        const elements = cart.filter(
+                          (item, index) => cart.indexOf(item) === index
+                        );
+
+                        const productsCart = elements.map((product) => {
+                          let count = 0;
+                          cart.map((item) => {
+                            if (product.id === item.id) {
+                              count += 1;
+                            }
+                          });
+                          return { product, count };
+                        });
+
+                        dispatch(migrateLocalCart(productsCart));
+                        dispatch(getCartThunk());
+                        swalWithBootstrapButtons.fire(
+                          "Deleted!",
+                          "Your file has been deleted.",
+                          "success"
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        dispatch(deleteCart());
+                        dispatch(getCartThunk());
+                        swalWithBootstrapButtons.fire(
+                          "Cancelled",
+                          "Your imaginary file is safe :)",
+                          "error"
+                        );
+                      }
+                    });
+                }
+
                 dispatch(migrateLocalCart(productsCart));
+                dispatch(getCartThunk());
 
                 swalWithBootstrapButtons.fire(
                   "Ok, your cart was imported or merged",
@@ -110,8 +164,12 @@ const Login = () => {
   return (
     <div className="login-container">
       <section className="form-login-container">
-        <Card>
-          <Card.Header>
+        <Card className="card">
+          <h1 className="welcome-login">
+            Welcome! Enter your email and password to continue
+          </h1>
+
+          {/*<Card.Header>
             <Nav variant="tabs" defaultActiveKey="#first">
               <Nav.Item>
                 <Nav.Link href="#first">Login</Nav.Link>
@@ -119,18 +177,30 @@ const Login = () => {
               <Nav.Item>
                 <Nav.Link href="#link">Register</Nav.Link>
               </Nav.Item>
-              {/* <Nav.Item>
+               <Nav.Item>
             <Nav.Link href="#disabled" disabled>
               Disabled
             </Nav.Link>
-          </Nav.Item> */}
+          </Nav.Item> 
             </Nav>
-          </Card.Header>
+  </Card.Header>*/}
           <Card.Body>
+            <div className="test-data">
+              <b className="test-data-text"> Test data</b>
+              <div className="email-data">
+                <FontAwesomeIcon className="email-icon" icon={faEnvelope} />
+                john@gmail.com
+              </div>
+              <div className="password-data">
+                <FontAwesomeIcon className="password-icon" icon={faLock} />
+                john1234
+              </div>
+            </div>
             <Form onSubmit={handleSubmit(submit)}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
+                  className="email-input"
                   {...register("email")}
                   type="email"
                   placeholder="Enter email"
@@ -144,12 +214,14 @@ const Login = () => {
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  className="password-input"
                   {...register("password")}
                   type={inputType}
                   placeholder="Password"
                   required
                 />
                 <button
+                  className="password-eye"
                   type="button"
                   onClick={() =>
                     inputType === "password"
@@ -163,10 +235,24 @@ const Login = () => {
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
               </Form.Group>
-              <Button disabled={isLoadingCart} variant="primary" type="submit">
+
+              <Button
+                disabled={isLoadingCart}
+                className="submit-login"
+                variant="primary"
+                type="submit"
+              >
                 Submit
               </Button>
             </Form>
+            <div className="dont">
+              Dont have an account?
+              <Link to="/signup">
+                <button className="button-signup" type="button">
+                  Sign up
+                </button>
+              </Link>
+            </div>
           </Card.Body>
         </Card>
 

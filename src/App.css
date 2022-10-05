@@ -78,7 +78,7 @@ li {
   flex-direction: column;
 }
 .space {
-  height: 80px;
+  height: 55px;
 }
 .p-f {
   position: fixed;
@@ -231,14 +231,23 @@ li {
   cursor: pointer;
 }
 
+
+/*.login-container{
+
 .login-container {
+
   display: flex;
   height: 100vh;
   margin: 0 auto;
   justify-content: center;
   width: 100%;
   align-items: flex-start;
-}
+
+  
+}*/
+
+
+
 
 .search-advance-price {
   display: flex !important;

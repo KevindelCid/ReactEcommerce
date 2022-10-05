@@ -108,9 +108,9 @@ export const cartSlice = createSlice({
       // pending
 
       // trae los datos del carrito local
-      console.log(newCart);
-      // trae los productos que estan en el servidor
-      console.log(cartOnServer.data.data.cart.products);
+      // console.log(newCart);
+      // // trae los productos que estan en el servidor
+      // console.log(cartOnServer.data.data.cart.products);
 
       newCart.map((item) => {
         let key = "";

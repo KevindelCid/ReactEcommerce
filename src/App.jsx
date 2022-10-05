@@ -12,6 +12,7 @@ import { getProductsThunk } from "./store/slices/products.slice";
 import "../src/App.css";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 import { setUser } from "./store/slices/user.slice";
+import SignUp from "./pages/SignUp";
 import { getCartThunk } from "./store/slices/cart.slice";
 import CartSide from "./Components/CartSide";
 
@@ -20,6 +21,7 @@ function App() {
   const dispatch = useDispatch();
   const user = localStorage.getItem("user");
   const isVisibleCart = useSelector((state) => state.cartVisible);
+  const isLoadingCart = useSelector((state) => state.isLoadingCart);
 
   useEffect(() => {
     if (user) dispatch(getCartThunk());
@@ -41,6 +43,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/purchases" element={<Purchases />} />
         </Route>
