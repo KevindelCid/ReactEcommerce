@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Carousel, Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,6 @@ const Product = () => {
   const product = products.find((prod) => prod.id === Number(id));
 
   const dispatch = useDispatch();
-
   const [index, setIndex] = useState(0);
 
   const user = localStorage.getItem("user");
@@ -123,9 +122,9 @@ const Product = () => {
               </div>
             </div>
           </div>
-          <div className="buttom-cart">
+          {/* <div className="buttom-cart">
             <button className="buttom-add">Add to cart</button>
-          </div>
+          </div> */}
 
           <button
             className="buttom-add"
@@ -158,51 +157,27 @@ const Product = () => {
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
                   </Card.Title>
-                  <Row>
-                    <Col>
+                  <div className="price-cart">
+                    <div>
                       <span>Price</span>
                       <h3>${prod.price}</h3>
-                    </Col>
-                    <Col xs={6} md={3}>
-                      <Button
-                        onClick={() => {
-                          dispatch(addProduct(producto));
-                        }}
-                        className="add-cart-on-card"
-                      >
-                        <FontAwesomeIcon icon={faCartShopping} />
-                      </Button>
-                    </Col>
-                  </Row>
+                    </div>
+                    <Button
+                      onClick={() => {
+                        if (user)
+                          alert("el usuario esta logeado actuo diferente");
+                        else dispatch(addProduct(prod));
+                      }}
+                      className="add-cart-on-card"
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              {prod.title.length > 17
-                ? `${prod.title.substring(0, 17)}...`
-                : prod.title}
-            </Card.Title>
-            <div className="price-cart">
-              <div>
-                <span>Price</span>
-                <h3>${prod.price}</h3>
-              </div>
-              <Button
-                onClick={() => {
-                  if (user) alert("el usuario esta logeado actuo diferente");
-                  else dispatch(addProduct(prod));
-                }}
-                className="add-cart-on-card"
-              >
-                <FontAwesomeIcon icon={faCartShopping} />
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
       </section>
 
       <section>
