@@ -26,6 +26,74 @@ export const cartSlice = createSlice({
     deleteCart: () => {
       return [];
     },
+    addUserProductToCart: async (state, action) => {
+      const cartOnServer = await axios.get(
+        "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+        getConfig()
+      );
+      const cartServer = cartOnServer.data.data.cart.products;
+      const product = action.payload;
+
+      const found = cartServer.find((item) => item.id === product.id);
+
+      console.log(found);
+      if (found) {
+        //aqui voy a actualizar
+
+        const newQuantity = found.productsInCart.quantity + 1;
+        const id = product.id;
+
+        //actualizo los datos
+        axios
+          .patch(
+            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            { id: id, newQuantity: newQuantity },
+            getConfig()
+          )
+          .catch((err) => console.log(err))
+          .finally(() => {
+            Toast.fire({
+              icon: "success",
+              title: "Add to cart",
+            });
+          });
+      } else {
+        // aqui voy a crear
+        axios
+          .post(
+            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            { id: product.id, quantity: 1 },
+            getConfig()
+          )
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err))
+          .finally(() => {
+            Toast.fire({
+              icon: "success",
+              title: "Add to cart",
+            });
+          });
+      }
+
+      // cartServer.map((productServer) => {
+      //   if (productServer.id === product.id){
+      //     // editar
+      //   }
+
+      //   else {
+      //     // crear
+      //     axios
+      //     .post(
+      //       "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+      //       { id: product.id, quantity: 1 },
+      //       getConfig()
+      //     )
+      //     .then((res) => console.log(res.data))
+      //     .catch((err) => console.log(err));
+      //   }
+
+      // });
+    },
     migrateLocalCart: async (state, action) => {
       const products = action.payload;
       const newCart = products.map((item) => {
@@ -49,22 +117,22 @@ export const cartSlice = createSlice({
         cartOnServer.data.data.cart.products.map((ne) => {
           if (item.id === ne.id && key === "") {
             // aqui debo hacer el update y eliminar del newCart esos elementos
-            console.log(
-              "en el server tengo: " +
-                ne.productsInCart?.quantity +
-                " y en local tengo: " +
-                item?.quantity
-            );
+            // console.log(
+            //   "en el server tengo: " +
+            //     ne.productsInCart?.quantity +
+            //     " y en local tengo: " +
+            //     item?.quantity
+            // );
 
-            console.log(
-              "de " +
-                ne.title +
-                " tengo un total de: " +
-                (ne.productsInCart?.quantity + item?.quantity)
-            );
+            // console.log(
+            //   "de " +
+            //     ne.title +
+            //     " tengo un total de: " +
+            //     (ne.productsInCart?.quantity + item?.quantity)
+            // );
             const newQuantity = ne.productsInCart?.quantity + item?.quantity;
             const id = item.id;
-
+            //actualizo los datos
             axios
               .patch(
                 "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
@@ -79,6 +147,14 @@ export const cartSlice = createSlice({
         if (key === "") {
           // aqui necesito ingresar algo nuevo
           alert("el producto es nuevo ");
+
+          axios
+            .post(
+              "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+              { id: item.id, quantity: item.quantity },
+              getConfig()
+            )
+            .catch((err) => console.log(err));
         }
       });
 
@@ -154,6 +230,7 @@ export const {
   getCart,
   deleteProduct,
   deleteCart,
+  addUserProductToCart,
   migrateLocalCart,
   addSameProduct,
 } = cartSlice.actions;

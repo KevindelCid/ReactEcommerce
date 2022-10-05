@@ -73,8 +73,8 @@ const Login = () => {
                 dispatch(migrateLocalCart(productsCart));
 
                 swalWithBootstrapButtons.fire(
-                  "Deleted!",
-                  "Your file has been deleted.",
+                  "Ok, your cart was imported or merged",
+                  "We take your previous products and merge them with the ones you already had in your cart.",
                   "success"
                 );
               } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -82,7 +82,7 @@ const Login = () => {
 
                 swalWithBootstrapButtons.fire(
                   "Cancelled",
-                  "Your imaginary file is safe :)",
+                  "the data of the previous cart has been deleted.",
                   "error"
                 );
               }
