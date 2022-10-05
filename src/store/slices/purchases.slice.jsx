@@ -20,7 +20,7 @@ export const getPurschasesThunk = () => (dispatch) => {
       getConfig()
     )
     .then((res) => {
-      console.log(res.data.data.purchases[0].cart.products[0].title);
+   
       dispatch(getPurchases(res.data.data.purchases));
     })
     .catch((err) => console.log(err));

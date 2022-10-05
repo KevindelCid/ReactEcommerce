@@ -5,17 +5,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { addProduct } from "../store/slices/cart.slice";
+import {
+  addProduct,
+  addSameProduct,
+  addUserProductToCart,
+  getCartThunk,
+} from "../store/slices/cart.slice";
+import axios from "axios";
 
 const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem("user");
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {}, []);
-
- 
 
   return (
     <section className="section-products">
@@ -26,16 +31,19 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
           <div key={product.id}>
             <Card className="shadow" style={{ width: "18rem" }}>
               <Card.Img
-              className="click"
-              onClick={() => {
-                navigate(`/product/${product.id}`);
-                window.scrollTo(0, 0);
-              }}
+                className="click"
+                onClick={() => {
+                  navigate(`/product/${product.id}`);
+                  window.scrollTo(0, 0);
+                }}
                 variant="top"
                 src={product.productImgs[0]}
               />
               <Card.Body>
-                <Card.Title className="click" onClick={() => navigate(`/product/${product.id}`)}>
+                <Card.Title
+                  className="click"
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
                   {" "}
                   {product.title?.length > 20
                     ? `${product.title.substring(0, 20)}...`
@@ -52,9 +60,36 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                   <Col xs={6} md={3}>
                     <Button
                       onClick={() => {
-                        if(user) alert('el usuario esta logeado actuo diferente')
-                        else dispatch(addProduct(product));
-                        
+                        if (user) {
+                          dispatch(
+                            addUserProductToCart({
+                              id: product.id,
+                              quantity: 1,
+                            })
+                          );
+                          dispatch(getCartThunk());
+
+                          //
+
+                          // const result = cart.find(item=> item?.id === product?.id)
+
+                          // if(result === undefined){
+                          //   dispatch(addProduct({id: product.id, quantity: 1}))
+                          // }
+                          // else{
+
+                          //   const results = {id: result.id, quantity: result.quantity+1}
+
+                          // const index = cart.findIndex(x=>x.id === results.id)
+
+                          // const cartFake = cart;
+                          // console.log(cartFake)
+                          //     cartFake.splice(index)
+                          //     cartFake.push(results)
+                          //     dispatch(addProduct(cart))
+                          //   // dispatch(addSameProduct(results))
+                          // }
+                        } else dispatch(addProduct(product));
                       }}
                       className="add-cart-on-card"
                     >

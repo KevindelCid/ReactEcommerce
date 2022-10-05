@@ -9,8 +9,11 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+
 import "../styles/login.css";
 import { deleteCart, migrateLocalCart } from "../store/slices/cart.slice";
+
+
 import { setUser } from "../store/slices/user.slice";
 import { Link } from "react-router-dom";
 
@@ -20,19 +23,15 @@ const Login = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-const cart = useSelector(state => state.cart)
-
+  const cart = useSelector((state) => state.cart);
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: 'btn btn-success',
-      cancelButton: 'btn btn-danger'
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
     },
-    buttonsStyling: false
-  })
-  
-
-
+    buttonsStyling: false,
+  });
 
   const submit = (data) => {
     axios
@@ -49,6 +48,33 @@ const cart = useSelector(state => state.cart)
 
         navigate("/");
 
+        /// soolo si hay elementos en carrito
+        if (cart.length !== 0) {
+          swalWithBootstrapButtons
+            .fire({
+              title: "Keep products in cart?",
+              text: "There is a list of products in your cart before login, do you want to keep those products in your cart?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, keep cart",
+              cancelButtonText: "No, delete cart",
+              reverseButtons: true,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                const elements = cart.filter(
+                  (item, index) => cart.indexOf(item) === index
+                );
+
+                const productsCart = elements.map((product) => {
+                  let count = 0;
+                  cart.map((item) => {
+                    if (product.id === item.id) {
+                      count += 1;
+                    }
+                  });
+                  return { product, count };
+                });
 
 
 /// soolo si hay elementos en carrito
@@ -107,7 +133,25 @@ dispatch(migrateLocalCart(productsCart))
 
 
 
+                dispatch(migrateLocalCart(productsCart));
 
+
+                swalWithBootstrapButtons.fire(
+                  "Ok, your cart was imported or merged",
+                  "We take your previous products and merge them with the ones you already had in your cart.",
+                  "success"
+                );
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                dispatch(deleteCart());
+
+                swalWithBootstrapButtons.fire(
+                  "Cancelled",
+                  "the data of the previous cart has been deleted.",
+                  "error"
+                );
+              }
+            });
+        }
       })
       .catch((err) => {
         Swal.fire({

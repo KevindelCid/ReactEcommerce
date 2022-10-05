@@ -9,7 +9,7 @@ import CartSide from "../Components/CartSide";
 import Categories from "../Components/Categories";
 import FilterSide from "../Components/FilterSide";
 import Products from "../Components/Products";
-import { addProduct } from "../store/slices/cart.slice";
+import { addProduct, getCartThunk } from "../store/slices/cart.slice";
 import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import { getProductsThunk } from "../store/slices/products.slice";
 
@@ -21,9 +21,14 @@ const Home = () => {
   const [isVisibleFilterSide, setIsVisibleFilterSide] = useState(false);
   const isVisibleCart = useSelector((state) => state.cartVisible);
   const dispatch = useDispatch();
+  const user = localStorage.getItem('user')
+
+
+
 
   useEffect(() => {
     setFilteredProducts(products);
+
   }, [products]);
 
   useEffect(() => {
