@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import {
   deleteCart,
   getCartThunk,
-  migrateLocalCart,
+  migrateLocalCartThunk,
 } from "../store/slices/cart.slice";
 import { setIsLoadingCart } from "../store/slices/isLoadingCart.slice";
 
@@ -92,6 +92,7 @@ const Login = () => {
                     })
                     .then((result) => {
                       if (result.isConfirmed) {
+                        // Eliminando repetidos
                         const elements = cart.filter(
                           (item, index) => cart.indexOf(item) === index
                         );
@@ -106,7 +107,7 @@ const Login = () => {
                           return { product, count };
                         });
 
-                        dispatch(migrateLocalCart(productsCart));
+                        dispatch(migrateLocalCartThunk(productsCart));
                         dispatch(getCartThunk());
                         swalWithBootstrapButtons.fire(
                           "Deleted!",
@@ -125,8 +126,7 @@ const Login = () => {
                     });
                 }
 
-                dispatch(migrateLocalCart(productsCart));
-                dispatch(getCartThunk());
+                dispatch(migrateLocalCartThunk(productsCart));
 
                 swalWithBootstrapButtons.fire(
                   "Ok, your cart was imported or merged",

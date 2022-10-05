@@ -8,43 +8,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import "../styles/signup.css";
-import { deleteCart, migrateLocalCart } from "../store/slices/cart.slice";
-import { setUser } from "../store/slices/user.slice";
+
 import { Link } from "react-router-dom";
 
-
-
 const SignUp = () => {
-    const [inputType, setinputType] = useState("password");
-    const { register, handleSubmit } = useForm();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const cart = useSelector(state => state.cart)
+  const [inputType, setinputType] = useState("password");
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
 
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
 
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-    })
+  const submit = (data) => {
+    axios
+      .post("https://ecommerce-api-react.herokuapp.com/api/v1/users", data)
+      .then((res) => {
+        console.log(res.data);
 
-
-
-
-    const submit = (data) => {
-        axios
-            .post(
-                "https://ecommerce-api-react.herokuapp.com/api/v1/users",
-                data
-            )
-            .then((res) => {
-                console.log(res.data)
-                
-
-
-               /* dispatch(setUser(res.data.data));
+        /* dispatch(setUser(res.data.data));
                 localStorage.setItem("user", JSON.stringify(res.data.data));
                 localStorage.setItem("token", JSON.stringify(res.data.data.token));
 
@@ -104,29 +92,24 @@ const SignUp = () => {
 
 
 */
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Incorrect email or password",
+          // footer: '<a href="">Why do I have this issue?</a>'
+        });
+      });
+  };
 
+  return (
+    <div className="login-container">
+      <section className="form-login-container">
+        <Card className="card">
+          <h1 className="welcome-login"> Sign Up</h1>
 
-
-
-
-            })
-            .catch((err) => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Incorrect email or password",
-                    // footer: '<a href="">Why do I have this issue?</a>'
-                });
-            });
-    };
-
-    return (
-        <div className="login-container">
-            <section className="form-login-container">
-                <Card className="card">
-                    <h1 className="welcome-login"> Sign Up</h1>
-
-                    {/*<Card.Header>
+          {/*<Card.Header>
             <Nav variant="tabs" defaultActiveKey="#first">
               <Nav.Item>
                 <Nav.Link href="#first">Login</Nav.Link>
@@ -141,93 +124,93 @@ const SignUp = () => {
           </Nav.Item> 
             </Nav>
   </Card.Header>*/}
-                    <Card.Body>
-                        <Form onSubmit={handleSubmit(submit)}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control className="email-input"
-                                    {...register("email")}
-                                    type="email"
-                                    placeholder="Enter email"
-                                    required
-                                />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
+          <Card.Body>
+            <Form onSubmit={handleSubmit(submit)}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  className="email-input"
+                  {...register("email")}
+                  type="email"
+                  placeholder="Enter email"
+                  required
+                />
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>First Name</Form.Label>
-                                <Form.Control className="email-input"
-                                    {...register("firstname")}
-                                    type="text"
-                                    placeholder="Enter first name"
-                                    required
-                                />
-                            </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  className="email-input"
+                  {...register("firstname")}
+                  type="text"
+                  placeholder="Enter first name"
+                  required
+                />
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Last Name</Form.Label>
-                                <Form.Control className="email-input"
-                                    {...register("lastname")}
-                                    type="text"
-                                    placeholder="Enter last name"
-                                    required
-                                />
-                            </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  className="email-input"
+                  {...register("lastname")}
+                  type="text"
+                  placeholder="Enter last name"
+                  required
+                />
+              </Form.Group>
 
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  className="password-input"
+                  {...register("password")}
+                  type={inputType}
+                  placeholder="Password"
+                  required
+                />
+                <button
+                  className="password-eye"
+                  type="button"
+                  onClick={() =>
+                    inputType === "password"
+                      ? setinputType("text")
+                      : setinputType("password")
+                  }
+                >
+                  <FontAwesomeIcon icon={faEye} />
+                </button>
+              </Form.Group>
 
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Phone (10 characters)</Form.Label>
+                <Form.Control
+                  className="email-input"
+                  {...register("phone")}
+                  type="number"
+                  placeholder="Enter phone"
+                  required
+                />
+              </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control className="password-input"
-                                    {...register("password")}
-                                    type={inputType}
-                                    placeholder="Password"
-                                    required
-                                />
-                                <button className="password-eye"
-                                    type="button"
-                                    onClick={() =>
-                                        inputType === "password"
-                                            ? setinputType("text")
-                                            : setinputType("password")
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={faEye} />
-                                </button>
-                            </Form.Group>
+              <Button className="submit-signup" variant="primary" type="submit">
+                SignUp
+              </Button>
+            </Form>
+            <div className="already">
+              Already have an account?
+              <Link to="/login">
+                <button className="button-login" type="button">
+                  Log in
+                </button>
+              </Link>
+            </div>
+          </Card.Body>
+        </Card>
 
-
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Phone (10 characters)</Form.Label>
-                                <Form.Control className="email-input"
-                                    {...register("phone")}
-                                    type="number"
-                                    placeholder="Enter phone"
-                                    required
-                                />
-                            </Form.Group>
-
-
-                            
-                            <Button className="submit-signup" variant="primary" type="submit">
-                                SignUp
-                            </Button>
-                        </Form>
-                        <div className="already">
-                            Already have an account?
-
-                            <Link to="/login"><button className="button-login" type="button">
-                                Log in
-                            </button></Link>
-
-                        </div>
-
-                    </Card.Body>
-                </Card>
-
-                {/* 
+        {/* 
 
 
         <Form>
@@ -254,7 +237,7 @@ const SignUp = () => {
           </Button>
         </Form> */}
 
-                {/* 
+        {/* 
     <form >
       <div className="input-login">
         <label htmlFor="user"></label>
@@ -268,9 +251,9 @@ const SignUp = () => {
       <button type="submit">Login</button>
 
     </form> */}
-            </section>
-        </div>
-    );
+      </section>
+    </div>
+  );
 };
 
 export default SignUp;

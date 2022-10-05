@@ -7,8 +7,7 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import {
   addProduct,
-  addSameProduct,
-  addUserProductToCart,
+  addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
 import axios from "axios";
@@ -62,7 +61,7 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                       onClick={() => {
                         if (user) {
                           dispatch(
-                            addUserProductToCart({
+                            addUserProductToCartThunk({
                               id: product.id,
                               quantity: 1,
                             })
