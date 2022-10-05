@@ -6,12 +6,11 @@ const CartProduct = ({ product, count }) => {
   const [quantity, setQuantity] = useState(count);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
-  const user = localStorage.getItem('user')
+  const user = localStorage.getItem("user");
 
   return (
     <li>
       {product.title}
-      Quantity:
       <div className="contador">
         <span className="quantity">Quantity</span>
         <br />
@@ -19,23 +18,19 @@ const CartProduct = ({ product, count }) => {
           <button
             className="menos"
             onClick={() => {
-
-
-
-              if(user) alert('la persona esta logeada, actuaremos distinto') //dispatch(addProductToCartUser(product))
-              else
-            {  
-
-              if (!quantity < 1) setQuantity(quantity - 1);
-              let key = false;
-              products.find((product1, index) => {
-                
-                if (product1.id === product?.id && key === false) {
-                 
-                  dispatch(deleteProduct(index));
-                  key = true;
-                }
-              });
+              if (user)
+                alert(
+                  "la persona esta logeada, actuaremos distinto"
+                ); //dispatch(addProductToCartUser(product))
+              else {
+                if (!quantity < 1) setQuantity(quantity - 1);
+                let key = false;
+                products.find((product1, index) => {
+                  if (product1.id === product?.id && key === false) {
+                    dispatch(deleteProduct(index));
+                    key = true;
+                  }
+                });
               }
             }}
           >
@@ -52,9 +47,11 @@ const CartProduct = ({ product, count }) => {
             className="mas"
             onClick={() => {
               setQuantity(quantity + 1);
-              if(user) alert('la persona esta logeada, actuaremos distinto') //dispatch(addProductToCartUser(product))
-              else
-              dispatch(addProduct(product));
+              if (user)
+                alert(
+                  "la persona esta logeada, actuaremos distinto"
+                ); //dispatch(addProductToCartUser(product))
+              else dispatch(addProduct(product));
             }}
           >
             +

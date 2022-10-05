@@ -12,10 +12,20 @@ import { getProductsThunk } from "./store/slices/products.slice";
 import "../src/App.css";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 import { setUser } from "./store/slices/user.slice";
+import { getCartThunk } from "./store/slices/cart.slice";
 
 function App() {
   const isLoading = useSelector((state) => state.isLoading);
   const dispatch = useDispatch();
+  const user = localStorage.getItem('user')
+
+
+  useEffect(()=>{
+    if(user) dispatch(getCartThunk())
+    
+      },[])
+
+
   useEffect(() => {
     dispatch(getProductsThunk());
     const localUser = JSON.parse(localStorage.getItem("user"))

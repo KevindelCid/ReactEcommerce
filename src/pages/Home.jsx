@@ -25,10 +25,7 @@ const Home = () => {
 
 
 
-  useEffect(()=>{
-if(user) dispatch(getCartThunk())
 
-  },[])
   useEffect(() => {
     setFilteredProducts(products);
 

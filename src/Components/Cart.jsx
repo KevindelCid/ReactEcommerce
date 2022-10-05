@@ -4,8 +4,8 @@ import CartProduct from "./CartProduct";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const user = localStorage.getItem('user')
-  const allProducts = useSelector(state => state.products)
+  const user = localStorage.getItem("user");
+  const allProducts = useSelector((state) => state.products);
 
   const elements = cart.filter((item, index) => cart.indexOf(item) === index);
 
@@ -31,31 +31,23 @@ const Cart = () => {
   let totalPrice = 0;
 
   const displayCart = () => {
-
     if (user) {
+      const products = cart.map((item) => {
+        let prod = allProducts.find((product) => product.id === item.id);
+        return { product: prod, quantity: item.productsInCart.quantity };
+      });
 
-      const products = cart.map(item => {
-        let prod = allProducts.find(product => product.id === item.id)
-        return { product: prod, quantity: item.quantity }
-      }
-
-      )
-
-      return <>
-        {products.map(product => (
-
-          <ul key={product.id}>
-            {console.log(product)}
-            <CartProduct product={product.product} count={product.quantity} />
-          </ul>
-        ))}
-
-      </>
-
-
-
-    }
-    else {
+      return (
+        <>
+          {products.map((product) => (
+            <ul key={product.id}>
+              {console.log(product)}
+              <CartProduct product={product.product} count={product.quantity} />
+            </ul>
+          ))}
+        </>
+      );
+    } else {
       if (cart.length < 1) {
         return (
           <>
@@ -81,9 +73,6 @@ const Cart = () => {
         );
       }
     }
-
-
-
   };
 
   return <div>{displayCart()}</div>;
