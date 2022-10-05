@@ -12,6 +12,7 @@ import { getProductsThunk } from "./store/slices/products.slice";
 import "../src/App.css";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 import { setUser } from "./store/slices/user.slice";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const isLoading = useSelector((state) => state.isLoading);
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp/>} />
         <Route element={<ProtectedRoutes />}>
               <Route path="/purchases" element={<Purchases />} />
         </Route>

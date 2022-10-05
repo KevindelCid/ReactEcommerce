@@ -1,4 +1,6 @@
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState } from "react";
@@ -7,13 +9,11 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-<<<<<<< HEAD
-import  { setUser } from "../store/slices/user.slice";
 import "../styles/login.css";
-=======
 import { deleteCart, migrateLocalCart } from "../store/slices/cart.slice";
 import { setUser } from "../store/slices/user.slice";
->>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
+import { Link } from "react-router-dom";
+
 
 const Login = () => {
   const [inputType, setinputType] = useState("password");
@@ -41,8 +41,8 @@ const cart = useSelector(state => state.cart)
         data
       )
       .then((res) => {
-<<<<<<< HEAD
-=======
+
+
         dispatch(setUser(res.data.data));
         localStorage.setItem("user", JSON.stringify(res.data.data));
         localStorage.setItem("token", JSON.stringify(res.data.data.token));
@@ -99,7 +99,7 @@ dispatch(migrateLocalCart(productsCart))
     }
   })
 }
->>>>>>> c7f297f8e8f1ddb02e7376c0fd37f4a4842e111d
+
 
         
 
@@ -123,7 +123,9 @@ dispatch(migrateLocalCart(productsCart))
     <div className="login-container">
       <section className="form-login-container">
         <Card className="card">
-          <Card.Header>
+          <h1 className="welcome-login">Welcome! Enter your email and password to continue</h1>
+          
+          {/*<Card.Header>
             <Nav variant="tabs" defaultActiveKey="#first">
               <Nav.Item>
                 <Nav.Link href="#first">Login</Nav.Link>
@@ -131,18 +133,30 @@ dispatch(migrateLocalCart(productsCart))
               <Nav.Item>
                 <Nav.Link href="#link">Register</Nav.Link>
               </Nav.Item>
-              {/* <Nav.Item>
+               <Nav.Item>
             <Nav.Link href="#disabled" disabled>
               Disabled
             </Nav.Link>
-          </Nav.Item> */}
+          </Nav.Item> 
             </Nav>
-          </Card.Header>
+  </Card.Header>*/}
           <Card.Body>
+            <div className="test-data">
+             <b className="test-data-text"> Test data</b>
+             <div className="email-data">
+             <FontAwesomeIcon className="email-icon" icon={faEnvelope} /> 
+              john@gmail.com
+              </div>
+              <div className="password-data">
+              <FontAwesomeIcon className="password-icon" icon={faLock} />
+              john1234
+              </div>
+
+            </div>
             <Form onSubmit={handleSubmit(submit)}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control
+                <Form.Control className="email-input"
                   {...register("email")}
                   type="email"
                   placeholder="Enter email"
@@ -155,13 +169,13 @@ dispatch(migrateLocalCart(productsCart))
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control
+                <Form.Control className="password-input"
                   {...register("password")}
                   type={inputType}
                   placeholder="Password"
                   required
                 />
-                <button
+                <button className="password-eye"
                   type="button"
                   onClick={() =>
                     inputType === "password"
@@ -175,10 +189,19 @@ dispatch(migrateLocalCart(productsCart))
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button className="submit-login" variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
+            <div className="dont">
+              Dont have an account?
+<Link to="/signUp"><button  className="button-signup" type="button">
+                Sign up
+              </button></Link>
+              
+              
+            </div>
+
           </Card.Body>
         </Card>
 

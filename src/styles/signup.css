@@ -1,0 +1,24 @@
+.card-signup{
+    height: 800px ;
+    width: 400px;
+    border-radius: 10px;
+    border: none !important;
+}
+
+.button-login{
+    background: none;
+    border: none;
+    color: #2fa8f8;
+    margin-top: 25px;
+}
+
+.submit-signup{
+    margin-top: 15px;
+    width: 100%;
+    background-color: red !important;
+    border: none !important;
+}
+
+.already{
+    font-size: 13px;
+}

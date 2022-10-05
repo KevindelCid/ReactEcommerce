@@ -3,7 +3,7 @@
     display: flex;
     height: 100vh;
     justify-content: center;
-    background-color: bisque;
+    background-color:aliceblue;
 }
 
 
@@ -12,6 +12,76 @@
     width: 400px;
 }
 .card{
-    height: 600px !important;
+    height: 600px ;
     width: 400px;
+    border-radius: 10px;
+    border: none !important;
+}
+
+.submit-login{
+    width: 100%;
+    background-color: red !important;
+    border: none !important;
+}
+
+.dont{
+    font-size: 13px;
+}
+.button-signup{
+    background: none;
+    border: none;
+    color: #2fa8f8;
+    margin-top: 25px;
+}
+
+.password-eye{
+    background:none;
+    border: none;
+    color:  #868e96;
+}
+
+.password-input{
+    border-radius: 5px !important;
+}
+
+.email-input{
+    border-radius: 5px !important;
+}
+
+.welcome-login{
+    margin: 15px;
+}
+
+.test-data{
+    background: #d8f5fd;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    padding: 12px;
+    
+}
+
+.test-data-text{
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.email-data{
+    margin-bottom: 6px;
+}
+
+.password-data{
+    margin-bottom: 6px;
+
+}
+
+.email-icon{
+    font-size: 1.2rem;
+    margin-right: 13px;
+}
+
+.password-icon{
+    font-size: 1.2rem;
+    margin-right: 13px;
 }
