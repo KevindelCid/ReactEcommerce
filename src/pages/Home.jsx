@@ -19,16 +19,11 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isVisibleFilterSide, setIsVisibleFilterSide] = useState(false);
-  const isVisibleCart = useSelector((state) => state.cartVisible);
   const dispatch = useDispatch();
-  const user = localStorage.getItem('user')
-
-
-
+  const user = localStorage.getItem("user");
 
   useEffect(() => {
     setFilteredProducts(products);
-
   }, [products]);
 
   useEffect(() => {
@@ -54,8 +49,6 @@ const Home = () => {
 
   return (
     <main className="home-container">
-      {isVisibleCart && <CartSide />}
-
       {isVisibleFilterSide && (
         <FilterSide
           setIsVisibleFilterSide={setIsVisibleFilterSide}

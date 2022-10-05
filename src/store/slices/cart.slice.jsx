@@ -146,7 +146,6 @@ export const cartSlice = createSlice({
         });
         if (key === "") {
           // aqui necesito ingresar algo nuevo
-          alert("el producto es nuevo ");
 
           axios
             .post(

@@ -7,19 +7,19 @@ const CartSide = () => {
   const dispatch = useDispatch();
 
   return (
-    <aside className="filterside-main">
+    <aside className="cart-side-main">
       <div
-        className="filterside-close"
+        className="cart-side-close"
         onClick={() => dispatch(setIsCartVisible(false))}
       ></div>
 
-      <div className="filterside-principal">
+      <div className="cart-side-principal">
         <div className="space"></div>
         {/* <Categories
           setFilteredProducts={setFilteredProducts}
           setIsVisibleFilterSide={setIsVisibleFilterSide}
         /> */}
-        <Cart  />
+        <Cart />
       </div>
     </aside>
   );

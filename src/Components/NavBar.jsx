@@ -14,12 +14,13 @@ const NavBar = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoadingCart = useSelector((state) => state.isLoadingCart);
 
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     dispatch(setUser({}));
-    dispatch(deleteCart())
+    dispatch(deleteCart());
     navigate("/");
   };
 
@@ -61,7 +62,10 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link onClick={() => dispatch(setIsCartVisible(true))}>
+          <Nav.Link
+            disabled={isLoadingCart}
+            onClick={() => dispatch(setIsCartVisible(true))}
+          >
             <FontAwesomeIcon icon={faCartShopping} />
             <span className="notify-pop badge text-bg">
               {counterCart.length > 9 ? `+9` : counterCart.length}

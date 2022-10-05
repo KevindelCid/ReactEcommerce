@@ -12,6 +12,7 @@ import {
   getCartThunk,
   migrateLocalCart,
 } from "../store/slices/cart.slice";
+import { setIsLoadingCart } from "../store/slices/isLoadingCart.slice";
 import { setUser } from "../store/slices/user.slice";
 
 const Login = () => {
@@ -19,7 +20,9 @@ const Login = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isChargin, setIsChargin] = useState(false);
   const cart = useSelector((state) => state.cart);
+  const isLoadingCart = useSelector((state) => state.isLoadingCart);
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -30,6 +33,7 @@ const Login = () => {
   });
 
   const submit = (data) => {
+    dispatch(setIsLoadingCart(true));
     axios
       .post(
         "https://ecommerce-api-react.herokuapp.com/api/v1/users/login",
@@ -39,8 +43,6 @@ const Login = () => {
         dispatch(setUser(res.data.data));
         localStorage.setItem("user", JSON.stringify(res.data.data));
         localStorage.setItem("token", JSON.stringify(res.data.data.token));
-
-        navigate("/");
 
         /// soolo si hay elementos en carrito
         if (cart.length !== 0) {
@@ -88,6 +90,7 @@ const Login = () => {
               }
             });
         }
+        navigate("/");
       })
       .catch((err) => {
         Swal.fire({
@@ -96,6 +99,11 @@ const Login = () => {
           text: "Incorrect email or password",
           // footer: '<a href="">Why do I have this issue?</a>'
         });
+      })
+      .finally(() => {
+        dispatch(getCartThunk());
+
+        console.log(dispatch(setIsLoadingCart(false)));
       });
   };
 
@@ -155,7 +163,7 @@ const Login = () => {
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button disabled={isLoadingCart} variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
