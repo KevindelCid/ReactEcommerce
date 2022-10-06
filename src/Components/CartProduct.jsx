@@ -17,9 +17,10 @@ const CartProduct = ({ product, count }) => {
 
   return (
     <li>
+      <img src={product.productImgs[0]} width="50" alt={product.title} />
       {product.title}
       <div className="contador">
-        <span className="quantity">Quantity</span>
+        <span className="quantity">Quantitysdds</span>
         <br />
         <div className="div-contador">
           <button
