@@ -14,33 +14,36 @@ const Purchases = () => {
 
   return (
     <div className="div-purchases">
-      <h1>My purchases</h1>
+      <h1 className="my-purchases"><strong> My purchases</strong></h1>
       
       {purchases.map((purchase) => (
-        
-      <section className="ul-purchases">
+        <section>
+           <div className="purchases">
+          
+          
+            <h2 className="fecha-purchases"><strong> {moment(purchase.createdAt).format("MMMM D, YYYY LT")}</strong></h2>
+           </div>
+      <div className="ul-purchases">
         <ul  key={purchase.id}>
           {console.log(purchase)}
-          
-          <li>
-            <div className="purchases">
-            <h2> {moment(purchase.createdAt).format("MMMM D, YYYY LT")}</h2>
-            </div>
+           
             {purchase.cart.products.map(product => (
-
+ <li>
               <div key={product.id} className="product-purchase">
 
-              
+             
 
                 <p>{product.title}</p>
-                <p>${product.price}</p>
+                <p><strong>${product.price}</strong></p>
+                
               </div>
-
+ </li>
             ))}
             {/* [opcional] hacer esto un componente dentro de este mismo archivo y poner un total de la compra */}
-          </li>
-          
+         
+           
         </ul>
+        </div>
         </section>
       ))}
     </div>

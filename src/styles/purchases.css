@@ -1,26 +1,38 @@
 .product-purchase{
-display: flex;  
+display: grid;  
+grid-template-columns: repeat(2,1fr);
+gap: 180px;
+margin-top: 15px;
+margin-left: 100px;
+
 
 }
 .purchases{
     border: 1px solid red;
-    display: block;
-    justify-content: center;
-    align-items: center;
+    margin: 0px 107.5px ;
+    border-radius: 10px;
+   padding: 15px;
+}
 
+.fecha-purchases{
+    font-size: 15px;
+    
 }
 
 .ul-purchases{
     border: 1px solid red;
-padding: 0;
-   margin: 0px 107.5px !important;
-   display: block;
+border-radius: 10px;
+   margin-left: 107.5px ;
+   margin-right: 107.5px;
+  margin-bottom: 40px;
 }
 
 .div-purchases{
 display:grid;
-align-items: center;
-justify-content: center;
-width: 566px;
-padding: 0;
+
 }
+   .my-purchases{
+margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 107.5px;
+   }
