@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router";
 import { purchaseCartThunk } from "../store/slices/cart.slice";
+import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import CartProduct from "./CartProduct";
 
 const Cart = () => {
@@ -9,6 +11,7 @@ const Cart = () => {
   const allProducts = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const elements = cart.filter((item, index) => cart.indexOf(item) === index);
+  const navigate = useNavigate();
 
   const productsCart = elements.map((product) => {
     let count = 0;
@@ -34,6 +37,9 @@ const Cart = () => {
   const displayCart = () => {
     if (user) {
       // carrito para logueados
+      if (cart.length < 1) {
+        return <h2>Cart is empty</h2>;
+      }
 
       const products = cart.map((item) => {
         let prod = allProducts.find((product) => product.id === item.id);
@@ -43,10 +49,10 @@ const Cart = () => {
       return (
         <>
           {" "}
-          <ul className="cartproduct-container" >
+          <ul className="cartproduct-container">
             {products.map((product, index) => (
               <CartProduct
-                key={index}
+                key={product.id + "" + index}
                 product={product.product}
                 count={product.quantity}
               />
@@ -76,18 +82,35 @@ const Cart = () => {
       } else {
         return (
           <>
-            <h3> hay un total de {cart.length} productos</h3>
-            <h3>{productsCart.length} de ellos son diferentes</h3>
-            {productsCart.map((product, index) => (
-              <ul key={product.id}>
-                <CartProduct product={product.product} count={product.count} />
-              </ul>
-            ))}{" "}
+            {/* <h3> hay un total de {cart.length} productos</h3>
+            <h3>{productsCart.length} de ellos son diferentes</h3> */}
+            <ul className="cartproduct-container">
+              {productsCart.map((product, index) => (
+                <CartProduct
+                  key={product.id + "" + index}
+                  product={product.product}
+                  count={product.count}
+                />
+              ))}{" "}
+            </ul>
             {productsCart.map((prod) => {
               totalPrice = totalPrice + prod.product.price * prod.count;
             })}
-            el total a pagar es:{totalPrice}
-            <button type="">Check in</button>
+            <button
+              className="buttom-add"
+              onClick={() => {
+                if (user) {
+                  //compramos el carrito
+
+                  dispatch(purchaseCartThunk());
+                } else {
+                  navigate("/login");
+                  dispatch(setIsCartVisible(false));
+                }
+              }}
+            >
+              Purchase Cart ${totalPrice}
+            </button>
           </>
         );
       }

@@ -147,12 +147,20 @@ const Login = () => {
         navigate("/");
       })
       .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Incorrect email or password",
-          // footer: '<a href="">Why do I have this issue?</a>'
-        });
+        if (err.message === "Network Error")
+          Swal.fire({
+            icon: "error",
+            title: "Oops... No Internet Connection?",
+            text: "Sorry, you need access to internet for create a user",
+            // footer: '<a href="">Why do I have this issue?</a>'
+          });
+        else if (err.response.status === 400)
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Incorrect email or password",
+            // footer: '<a href="">Why do I have this issue?</a>'
+          });
       })
       .finally(() => {
         dispatch(getCartThunk());
