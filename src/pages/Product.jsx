@@ -8,6 +8,7 @@ import "../styles/products.css";
 import {
 addProduct,
   addProductLocalQuantity,
+  addProductsQuantityUserThunk,
   addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
@@ -137,10 +138,10 @@ const Product = () => {
             className="buttom-add"
             onClick={() => {
               if (user) {
-                dispatch(addProductLocalQuantity(product,quantity))
+                dispatch(addProductsQuantityUserThunk(product.id, quantity))
               }
               else{
-                alert('holaaaaa')
+                
                 dispatch(addProductLocalQuantity(product, quantity))};
             }}
           >
@@ -183,7 +184,7 @@ const Product = () => {
                             })
                           );
                           dispatch(getCartThunk());
-                        } else dispatch(addProduct(product));
+                        } else dispatch(addProduct(prod));
                       }}
                       className="add-cart-on-card"
                     >
@@ -233,7 +234,7 @@ const Product = () => {
                               })
                             );
                             dispatch(getCartThunk());
-                          } else dispatch(addProduct(product));
+                          } else dispatch(addProduct(prod));
                         }}
                         className="add-cart-on-card"
                       >

@@ -135,7 +135,7 @@ const Login = () => {
                 );
               } else if (result.dismiss === Swal.DismissReason.cancel) {
                 dispatch(deleteCart());
-
+                dispatch(getCartThunk())
                 swalWithBootstrapButtons.fire(
                   "Cancelled",
                   "the data of the previous cart has been deleted.",
