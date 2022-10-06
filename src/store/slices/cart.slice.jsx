@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import getConfig from "../../../utils";
 import { setIsCartVisible } from "./cartIsVisible.slice";
@@ -33,8 +34,14 @@ export const cartSlice = createSlice({
     deleteCart: () => {
       return [];
     },
+    deleteProductLocal: (state, action)=>{
+      return [action.payload];
+    },
+    changeCartFor: (state, action)=>{
+      return action.payload;
+    },
 
-    addUserProductToCart: async (state, action) => {},
+    // addUserProductToCart: async (state, action) => {},
     getCart: (state, action) => {
       return action.payload;
     },
@@ -106,7 +113,7 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
     if (found) {
       //aqui voy a actualizar
 
-      const newQuantity = found.productsInCart.quantity + 1;
+      const newQuantity = found.productsInCart?.quantity + 1;
       const id = product.id;
 
       //actualizo los datos
@@ -115,7 +122,7 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
           "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
           { id: id, newQuantity: newQuantity },
           getConfig()
-        )
+        ).then(()=> dispatch(getCartThunk()))
         .catch((err) => console.log(err))
         .finally(() => {
           Toast.fire({
@@ -168,20 +175,7 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
       let key = "";
       cartServer.map(async (ne) => {
         if (item.id === ne.id && key === "") {
-          // aqui debo hacer el update y eliminar del newCart esos elementos
-          // console.log(
-          //   "en el server tengo: " +
-          //     ne.productsInCart?.quantity +
-          //     " y en local tengo: " +
-          //     item?.quantity
-          // );
-
-          // console.log(
-          //   "de " +
-          //     ne.title +
-          //     " tengo un total de: " +
-          //     (ne.productsInCart?.quantity + item?.quantity)
-          // );
+       
           const newQuantity = ne.productsInCart?.quantity + item?.quantity;
           const id = item.id;
           //actualizo los datos
@@ -224,23 +218,6 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
     }
   }
 
-  // pending
-
-  // trae los datos del carrito local
-  // console.log(newCart);
-  // // trae los productos que estan en el servidor
-  // console.log(cartOnServer.data.data.cart.products);
-
-  // newCart.map((item) => {
-  //   axios
-  //     .post(
-  //       "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
-  //       item,
-  //       getConfig()
-  //     )
-  //     .then((res) => console.log(res.data))
-  //     .catch((err) => console.log(err));
-  // });
 };
 
 export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
@@ -258,13 +235,66 @@ export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
     });
 };
 
+
+export const  addProductsQuantityUserThunk =  (productId, quantity)  => async dispatch => {
+
+
+  try {
+    const cartOnServer = await axios.get(
+      "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+      getConfig()
+    );
+    const cartServer = cartOnServer.data.data.cart.products;
+    
+      const found = cartServer.find(product => product.id === productId)
+      if(found){
+        // vamos solo a actualizar
+        // console.log(found)
+        axios.patch(
+          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          { id: productId, newQuantity: quantity + found.productsInCart.quantity },
+          getConfig()
+        ).catch(err =>console.log(err))
+      }
+      else{
+        //vamos a agregar como nuevo producto
+      }
+
+  } catch (error) {
+    if (error.response?.status === 404) {
+      addToCart([]);
+    }
+  }
+
+
+}
+
+export const addProductLocalQuantity = (product,quantity) => dispatch =>{
+
+  for(let i = 1; i<= quantity; i++){
+    dispatch(addProduct(product))
+  }
+
+
+}
+
+export const deleteLocalProductCart =(productId, cart) => dispatch =>{
+
+  const filterWithoutProduct = cart.filter(product => product.id !== productId)
+
+
+  console.log(filterWithoutProduct)
+  dispatch(changeCartFor(filterWithoutProduct))
+
+}
+
 export const getCartThunk = () => (dispatch) => {
   axios
     .get("https://ecommerce-api-react.herokuapp.com/api/v1/cart", getConfig())
     .then((res) => dispatch(getCart(res.data.data.cart.products)))
     .catch((error) => {
       if (error.response.status === 404) {
-        alert("el carrito esta vacion");
+      // el carrito se encuentra vacio
       }
     });
 };
@@ -298,7 +328,7 @@ export const purchaseCartThunk = () => (dispatch) => {
         });
         dispatch(setIsLoading(false));
       } else {
-        alert("hemos encontrado un error " + error.response.status);
+        alert("hemos encontrado un error " + error.response.status + ' por favor contacta al soporte técnico kevindelcid731@gmail.com');
         dispatch(setIsLoading(false));
       }
     });
@@ -311,6 +341,8 @@ export const {
   deleteProduct,
   deleteCart,
   addSameProduct,
+  deleteProductLocal,
+  changeCartFor,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

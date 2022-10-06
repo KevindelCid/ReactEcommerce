@@ -7,6 +7,8 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
 import {
 addProduct,
+  addProductLocalQuantity,
+  addProductsQuantityUserThunk,
   addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
@@ -14,7 +16,7 @@ addProduct,
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
@@ -118,7 +120,7 @@ const Product = () => {
                   -
                 </button>
 
-                <input type="text" className="input" value={quantity} />
+                <input type="text" className="input" onChange={(e)=>setQuantity(e.target.value)} value={quantity} />
                 <button
                   className="mas"
                   onClick={() => setQuantity(quantity + 1)}
@@ -132,11 +134,17 @@ const Product = () => {
             <button className="buttom-add">Add to cart</button>
           </div> */}
 
+
+
+
           <button
             className="buttom-add"
             onClick={() => {
-              if (user) alert("el usuario esta logeado actuo diferente");
-              else addQuantityProducts(quantity);
+              if (user) {
+                dispatch(addProductsQuantityUserThunk(product.id, quantity))
+              }
+              else  dispatch(addProductLocalQuantity(product,quantity))
+             
             }}
           >
             Add to cart
@@ -149,16 +157,23 @@ const Product = () => {
           {relatedPorducts.map((prod) => (
             <Col key={prod.id}>
               <Card
-                onClick={() => navigate(`/product/${prod.id}`)}
+               
                 style={{ width: "18rem" }}
               >
                 <Card.Img
+                 onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/product/${prod.id}`)
+                }}
                   variant="top"
                   className="img-product-selected"
                   src={prod?.productImgs}
                 />
                 <Card.Body>
-                  <Card.Title>
+                  <Card.Title  onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/product/${prod.id}`)
+                }}>
                     {prod.title.length > 17
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
@@ -178,7 +193,10 @@ const Product = () => {
                             })
                           );
                           dispatch(getCartThunk());
-                        } else dispatch(addProduct(product));
+                        } else {
+                          alert('se supone que esto solo pasa si no esta logueado')
+                          dispatch(addProduct(product))
+                        };
                       }}
                       className="add-cart-on-card"
                     >
@@ -205,9 +223,16 @@ const Product = () => {
                   variant="top"
                   className="img-product-selected"
                   src={prod?.productImgs}
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate(`/product/${prod.id}`)
+                  }}
                 />
                 <Card.Body>
-                  <Card.Title>
+                  <Card.Title  onClick={() => {
+                  window.scrollTo(0, 0);
+                  navigate(`/product/${prod.id}`)
+                }}>
                     {prod.title.length > 17
                       ? `${prod.title.substring(0, 17)}...`
                       : prod.title}
@@ -228,7 +253,9 @@ const Product = () => {
                               })
                             );
                             dispatch(getCartThunk());
-                          } else dispatch(addProduct(product));
+                          } else {
+                            alert('se supone que esto solo pasa si no esta logueado')
+                            dispatch(addProduct(product))};
                         }}
                         className="add-cart-on-card"
                       >

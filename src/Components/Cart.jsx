@@ -43,7 +43,7 @@ const Cart = () => {
 
       const products = cart.map((item) => {
         let prod = allProducts.find((product) => product.id === item.id);
-        return { product: prod, quantity: item.productsInCart.quantity };
+        return { product: prod, quantity: item.productsInCart?.quantity };
       });
 
       return (

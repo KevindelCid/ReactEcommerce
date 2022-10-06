@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
   addProductQuantityOnCartUserThunk,
+  deleteLocalProductCart,
   deleteProduct,
   deleteProductOnCartUserThunk,
 } from "../store/slices/cart.slice";
@@ -15,12 +16,14 @@ const CartProduct = ({ product, count }) => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
   const user = localStorage.getItem("user");
+  
+  const cart = useSelector(state => state.cart)
 
   return (
     <li className="li-cart">
       <div className="contador">
 <div>
-      <img className="img-cart" src={product.productImgs[0]} width="50"  alt={product.title} />
+      <img className="img-cart" src={product.productImgs?.[0]} width="50"  alt={product.title} />
       {product.title}
       <br />
         <span className="quantity">Quantitysdds</span>
@@ -84,7 +87,14 @@ const CartProduct = ({ product, count }) => {
         <div>
         <FontAwesomeIcon
           onClick={() => {
-            dispatch(deleteProductOnCartUserThunk(product.id));
+
+            if(user){
+              dispatch(deleteProductOnCartUserThunk(product.id));
+            }else{
+             
+              dispatch(deleteLocalProductCart(product.id, cart))
+            }
+           
           }}
           icon={faTrashCan}
         />
