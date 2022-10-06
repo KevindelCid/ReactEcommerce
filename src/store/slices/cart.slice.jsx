@@ -80,7 +80,7 @@ export const addProductQuantityOnCartUserThunk =
           getConfig()
         )
         .then(() => {
-          // alert("se agregó un product");
+          dispatch(getCartThunk())
         })
         .catch((error) => console.log(error));
     } else if (type === "subtraction" && quantity >= 2) {
@@ -93,6 +93,7 @@ export const addProductQuantityOnCartUserThunk =
         )
         .then(() => {
           // alert("se restó un product");
+          dispatch(getCartThunk())
         })
         .catch((error) => console.log(error));
     }
@@ -116,6 +117,9 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
           { id: id, newQuantity: newQuantity },
           getConfig()
         )
+        .then(()=>{
+          dispatch(getCartThunk())
+        })
         .catch((err) => console.log(err))
         .finally(() => {
           Toast.fire({

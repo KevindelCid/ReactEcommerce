@@ -118,7 +118,7 @@ const Product = () => {
                   -
                 </button>
 
-                <input type="text" className="input" value={quantity} />
+                <input type="text" className="input" onChange={e => setQuantity(e.target.value)} value={quantity} />
                 <button
                   className="mas"
                   onClick={() => setQuantity(quantity + 1)}
@@ -173,7 +173,7 @@ const Product = () => {
                         if (user) {
                           dispatch(
                             addUserProductToCartThunk({
-                              id: product.id,
+                              id: prod.id,
                               quantity: 1,
                             })
                           );
@@ -223,7 +223,7 @@ const Product = () => {
                           if (user) {
                             dispatch(
                               addUserProductToCartThunk({
-                                id: product.id,
+                                id: prod.id,
                                 quantity: 1,
                               })
                             );
