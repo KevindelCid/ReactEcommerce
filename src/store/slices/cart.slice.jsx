@@ -68,8 +68,7 @@ const Toast = Swal.mixin({
   },
 });
 
-export const addProductQuantityOnCartUserThunk =
-  (product, quantity, type) => (dispatch) => {
+export const addProductQuantityOnCartUserThunk = (product, quantity, type) => (dispatch) => {
     if (type === "addition") {
       // agrego uno del producto
 
@@ -306,6 +305,52 @@ export const purchaseCartThunk = () => (dispatch) => {
         dispatch(setIsLoading(false));
       }
     });
+};
+
+
+export const addProductLocalQuantity = ( product,quantity) => dispatch =>{
+// Agregamos productos al carrito local segun la cantidad especificada en product/:id 
+
+for(let i = 1; i<= quantity; i++){
+  dispatch(addProduct(product))
+}
+
+
+
+// console.log(product)
+// console.log(cart)
+// if(!cart){
+// alert('el producto es nuevo porque el carrito essta vacio')
+// }
+// else{
+
+//   const found = cart.find(cartProd => cartProd.id === product.id)
+  
+// if(found){
+//   // el producto ya esta en el carrito, actualizamos
+//   for(let i = 1; i<= quantity; i++){
+//     dispatch(addProduct(product))
+//   }
+// }
+// else{
+//   // el producto no esta en el carrito, agregamos
+
+
+//   for(let i = 1; i<= quantity; i++){
+//     dispatch(addProduct(product))
+//   }
+
+// }
+
+// }
+ 
+
+
+
+
+
+
+
 };
 
 export const {

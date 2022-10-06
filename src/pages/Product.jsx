@@ -7,6 +7,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
 import {
 addProduct,
+  addProductLocalQuantity,
   addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
@@ -135,8 +136,12 @@ const Product = () => {
           <button
             className="buttom-add"
             onClick={() => {
-              if (user) alert("el usuario esta logeado actuo diferente");
-              else addQuantityProducts(quantity);
+              if (user) {
+                dispatch(addProductLocalQuantity(product,quantity))
+              }
+              else{
+                alert('holaaaaa')
+                dispatch(addProductLocalQuantity(product, quantity))};
             }}
           >
             Add to cart
