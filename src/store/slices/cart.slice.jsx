@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Swal from "sweetalert2";
 import getConfig from "../../../utils";
+import { setIsCartVisible } from "./cartIsVisible.slice";
+import { setIsLoading } from "./isLoading.slice";
+import isLoadingCartSlice, { setIsLoadingCart } from "./isLoadingCart.slice";
 
 // Cambiamos isLoadingSlice por el nombre de nuestro slice (usersSlice, toDosSlice...)
 export const cartSlice = createSlice({
@@ -30,6 +33,7 @@ export const cartSlice = createSlice({
     deleteCart: () => {
       return [];
     },
+
     addUserProductToCart: async (state, action) => {},
     getCart: (state, action) => {
       return action.payload;
@@ -63,6 +67,36 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+
+export const addProductQuantityOnCartUserThunk =
+  (product, quantity, type) => (dispatch) => {
+    if (type === "addition") {
+      // agrego uno del producto
+
+      axios
+        .patch(
+          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          { id: product.id, newQuantity: quantity + 1 },
+          getConfig()
+        )
+        .then(() => {
+          // alert("se agregó un product");
+        })
+        .catch((error) => console.log(error));
+    } else if (type === "subtraction" && quantity >= 2) {
+      // elimino uno del producto
+      axios
+        .patch(
+          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          { id: product.id, newQuantity: quantity - 1 },
+          getConfig()
+        )
+        .then(() => {
+          // alert("se restó un product");
+        })
+        .catch((error) => console.log(error));
+    }
+  };
 
 export const addUserProductToCartThunk = (product) => async (dispatch) => {
   const addToCart = (cartServer) => {
@@ -209,10 +243,60 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
   // });
 };
 
+export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
+  // https://ecommerce-api-react.herokuapp.com/api/v1/cart/1
+
+  dispatch(setIsLoading(true));
+  axios
+    .delete(
+      `https://ecommerce-api-react.herokuapp.com/api/v1/cart/${idProduct}`,
+      getConfig()
+    )
+    .then(() => {
+      dispatch(getCartThunk());
+      dispatch(setIsLoading(false));
+    });
+};
+
 export const getCartThunk = () => (dispatch) => {
   axios
     .get("https://ecommerce-api-react.herokuapp.com/api/v1/cart", getConfig())
     .then((res) => dispatch(getCart(res.data.data.cart.products)));
+};
+export const purchaseCartThunk = () => (dispatch) => {
+  dispatch(setIsLoading(true));
+  axios
+    .post(
+      "https://ecommerce-api-react.herokuapp.com/api/v1/purchases",
+      {},
+      getConfig()
+    )
+    .then(() => {
+      dispatch(deleteCart());
+      dispatch(setIsCartVisible(false));
+      Swal.fire({
+        icon: "success",
+        title: "Thanks for you purchase",
+        text: "you are cool!",
+        // footer: '<a href="">Why do I have this issue?</a>'
+      });
+      dispatch(setIsLoading(false));
+    })
+    .catch((error) => {
+      if (error.response.status === 404) {
+        dispatch(setIsCartVisible(false));
+        Swal.fire({
+          icon: "error",
+          title: "without products in cart",
+          text: "Before add a product in cart",
+          // footer: '<a href="">Why do I have this issue?</a>'
+        });
+        dispatch(setIsLoading(false));
+      } else {
+        alert("hemos encontrado un error " + error.response.status);
+        dispatch(setIsLoading(false));
+      }
+    });
 };
 
 export const {
