@@ -1,6 +1,13 @@
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, deleteProduct } from "../store/slices/cart.slice";
+import {
+  addProduct,
+  addProductQuantityOnCartUserThunk,
+  deleteProduct,
+  deleteProductOnCartUserThunk,
+} from "../store/slices/cart.slice";
 
 const CartProduct = ({ product, count }) => {
   const [quantity, setQuantity] = useState(count);
@@ -18,11 +25,18 @@ const CartProduct = ({ product, count }) => {
           <button
             className="menos"
             onClick={() => {
-              if (user)
-                alert(
-                  "la persona esta logeada, actuaremos distinto"
-                ); //dispatch(addProductToCartUser(product))
-              else {
+              if (user) {
+                if (quantity >= 2) {
+                  setQuantity(quantity - 1);
+                  dispatch(
+                    addProductQuantityOnCartUserThunk(
+                      product,
+                      quantity,
+                      "subtraction"
+                    )
+                  );
+                }
+              } else {
                 if (!quantity < 1) setQuantity(quantity - 1);
                 let key = false;
                 products.find((product1, index) => {
@@ -47,16 +61,27 @@ const CartProduct = ({ product, count }) => {
             className="mas"
             onClick={() => {
               setQuantity(quantity + 1);
-              if (user)
-                alert(
-                  "la persona esta logeada, actuaremos distinto"
-                ); //dispatch(addProductToCartUser(product))
-              else dispatch(addProduct(product));
+              if (user) {
+                // aqui vamos a agregar 1 del producto seleccionado
+                dispatch(
+                  addProductQuantityOnCartUserThunk(
+                    product,
+                    quantity,
+                    "addition"
+                  )
+                );
+              } else dispatch(addProduct(product));
             }}
           >
             +
           </button>
         </div>
+        <FontAwesomeIcon
+          onClick={() => {
+            dispatch(deleteProductOnCartUserThunk(product.id));
+          }}
+          icon={faTrashCan}
+        />
       </div>
       Total: ${product.price * quantity}
     </li>

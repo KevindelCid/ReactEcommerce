@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { purchaseCartThunk } from "../store/slices/cart.slice";
 import CartProduct from "./CartProduct";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const user = localStorage.getItem("user");
   const allProducts = useSelector((state) => state.products);
-
+  const dispatch = useDispatch();
   const elements = cart.filter((item, index) => cart.indexOf(item) === index);
 
   const productsCart = elements.map((product) => {
@@ -32,6 +33,7 @@ const Cart = () => {
 
   const displayCart = () => {
     if (user) {
+      // carrito para logueados
       const products = cart.map((item) => {
         let prod = allProducts.find((product) => product.id === item.id);
         return { product: prod, quantity: item.productsInCart.quantity };
@@ -49,6 +51,18 @@ const Cart = () => {
               />
             ))}
           </ul>{" "}
+          <button
+            className="buttom-add"
+            onClick={() => {
+              if (user) {
+                //compramos el carrito
+
+                dispatch(purchaseCartThunk());
+              } else addQuantityProducts(quantity);
+            }}
+          >
+            Purchase Cart
+          </button>
         </>
       );
     } else {

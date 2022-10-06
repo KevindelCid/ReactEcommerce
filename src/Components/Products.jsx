@@ -67,27 +67,6 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                             })
                           );
                           dispatch(getCartThunk());
-
-                          //
-
-                          // const result = cart.find(item=> item?.id === product?.id)
-
-                          // if(result === undefined){
-                          //   dispatch(addProduct({id: product.id, quantity: 1}))
-                          // }
-                          // else{
-
-                          //   const results = {id: result.id, quantity: result.quantity+1}
-
-                          // const index = cart.findIndex(x=>x.id === results.id)
-
-                          // const cartFake = cart;
-                          // console.log(cartFake)
-                          //     cartFake.splice(index)
-                          //     cartFake.push(results)
-                          //     dispatch(addProduct(cart))
-                          //   // dispatch(addSameProduct(results))
-                          // }
                         } else dispatch(addProduct(product));
                       }}
                       className="add-cart-on-card"

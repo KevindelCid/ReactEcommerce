@@ -1,6 +1,6 @@
 .product-purchase{
 display: grid;  
-grid-template-columns: repeat(2,1fr);
+grid-template-columns: repeat(3,1fr);
 gap: 180px;
 margin-top: 15px;
 margin-left: 100px;
@@ -8,7 +8,7 @@ margin-left: 100px;
 
 }
 .purchases{
-    border: 1px solid red;
+    border: 1px solid gray;
     margin: 0px 107.5px ;
     border-radius: 10px;
    padding: 15px;
@@ -20,7 +20,7 @@ margin-left: 100px;
 }
 
 .ul-purchases{
-    border: 1px solid red;
+    border: 1px solid gray;
 border-radius: 10px;
    margin-left: 107.5px ;
    margin-right: 107.5px;
@@ -35,4 +35,17 @@ display:grid;
 margin-top: 50px;
     margin-bottom: 50px;
     margin-left: 107.5px;
+   }
+
+   .quantity-purchases{
+    text-align: center;
+    display: block;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    width: 60px;
+    height: 30px;
+    margin-left: 60px;
+    border-radius: 5px;
    }

@@ -5,6 +5,11 @@ import { useNavigate, useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
+import {
+addProduct,
+  addUserProductToCartThunk,
+  getCartThunk,
+} from "../store/slices/cart.slice";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -165,9 +170,15 @@ const Product = () => {
                     </div>
                     <Button
                       onClick={() => {
-                        if (user)
-                          alert("el usuario esta logeado actuo diferente");
-                        else dispatch(addProduct(prod));
+                        if (user) {
+                          dispatch(
+                            addUserProductToCartThunk({
+                              id: product.id,
+                              quantity: 1,
+                            })
+                          );
+                          dispatch(getCartThunk());
+                        } else dispatch(addProduct(product));
                       }}
                       className="add-cart-on-card"
                     >
@@ -209,7 +220,15 @@ const Product = () => {
                     <Col xs={6} md={3}>
                       <Button
                         onClick={() => {
-                          dispatch(addProduct(producto));
+                          if (user) {
+                            dispatch(
+                              addUserProductToCartThunk({
+                                id: product.id,
+                                quantity: 1,
+                              })
+                            );
+                            dispatch(getCartThunk());
+                          } else dispatch(addProduct(product));
                         }}
                         className="add-cart-on-card"
                       >

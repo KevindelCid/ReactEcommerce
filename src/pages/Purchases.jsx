@@ -38,6 +38,9 @@ const Purchases = () => {
                 <p type="button" onClick={() =>  navigate(`/product/${product.id}` )
 
                 }>{product.title}</p>
+                <div className="quantity-purchases" type="button" onClick={() =>  navigate(`/product/${product.id}` )
+
+} >{product.productsInCart.quantity}</div>
                 <p><strong>${product.price}</strong></p>
                 
               </div>
