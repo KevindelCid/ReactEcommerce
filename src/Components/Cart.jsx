@@ -43,7 +43,7 @@ const Cart = () => {
       return (
         <>
           {" "}
-          <ul>
+          <ul className="cartproduct-container" >
             {products.map((product, index) => (
               <CartProduct
                 key={index}

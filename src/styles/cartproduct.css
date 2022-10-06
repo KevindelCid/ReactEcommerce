@@ -1,0 +1,21 @@
+.contador{
+    display: flex;
+
+}
+
+.img-cart{
+    height: 30px;
+}
+
+.li-cart{
+    margin-bottom: 40px;
+}
+
+.price-cart{
+    text-align: right;
+}
+
+.cartproduct-container{
+    overflow: auto;
+    height: 80vh;
+}

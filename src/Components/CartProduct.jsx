@@ -8,6 +8,7 @@ import {
   deleteProduct,
   deleteProductOnCartUserThunk,
 } from "../store/slices/cart.slice";
+import "../styles/cartproduct.css";
 
 const CartProduct = ({ product, count }) => {
   const [quantity, setQuantity] = useState(count);
@@ -16,10 +17,12 @@ const CartProduct = ({ product, count }) => {
   const user = localStorage.getItem("user");
 
   return (
-    <li>
-      <img src={product.productImgs[0]} width="50" alt={product.title} />
-      {product.title}
+    <li className="li-cart">
       <div className="contador">
+<div>
+      <img className="img-cart" src={product.productImgs[0]} width="50"  alt={product.title} />
+      {product.title}
+      <br />
         <span className="quantity">Quantitysdds</span>
         <br />
         <div className="div-contador">
@@ -76,15 +79,20 @@ const CartProduct = ({ product, count }) => {
           >
             +
           </button>
+</div>
         </div>
+        <div>
         <FontAwesomeIcon
           onClick={() => {
             dispatch(deleteProductOnCartUserThunk(product.id));
           }}
           icon={faTrashCan}
         />
+        </div>
       </div>
+      <div className="price-cart">
       Total: ${product.price * quantity}
+      </div>
     </li>
   );
 };
