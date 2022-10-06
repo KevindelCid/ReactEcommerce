@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
-import { useDispatch,  } from "react-redux";
+
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();

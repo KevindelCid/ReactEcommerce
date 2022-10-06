@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPurschasesThunk } from "../store/slices/purchases.slice";
 import moment from "moment";
 import "../styles/purchases.css";
+import {  useNavigate } from "react-router";
 
 const Purchases = () => {
+  const navigate = useNavigate( )
   const dispatch = useDispatch();
   const purchases = useSelector((state) => state.purchases);
 
@@ -33,7 +35,9 @@ const Purchases = () => {
 
              
 
-                <p>{product.title}</p>
+                <p type="button" onClick={() =>  navigate(`/product/${product.id}` )
+
+                }>{product.title}</p>
                 <p><strong>${product.price}</strong></p>
                 
               </div>
