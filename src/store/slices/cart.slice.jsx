@@ -261,7 +261,12 @@ export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
 export const getCartThunk = () => (dispatch) => {
   axios
     .get("https://ecommerce-api-react.herokuapp.com/api/v1/cart", getConfig())
-    .then((res) => dispatch(getCart(res.data.data.cart.products)));
+    .then((res) => dispatch(getCart(res.data.data.cart.products)))
+    .catch((error) => {
+      if (error.response.status === 404) {
+        alert("el carrito esta vacion");
+      }
+    });
 };
 export const purchaseCartThunk = () => (dispatch) => {
   dispatch(setIsLoading(true));
