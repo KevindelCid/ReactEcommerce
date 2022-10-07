@@ -23,7 +23,7 @@ const NavBar = () => {
     dispatch(deleteCart());
     navigate("/");
   };
-  
+
 
   return (
     <Navbar collapseOnSelect
@@ -41,7 +41,7 @@ const NavBar = () => {
             navbarScroll
           >
             <Nav.Link to="/" as={Link}>
-            {/* <FontAwesomeIcon icon={faHouse} />  */} Home
+              {/* <FontAwesomeIcon icon={faHouse} />  */} Home
             </Nav.Link>
 
 
@@ -52,22 +52,31 @@ const NavBar = () => {
 
 
           </Nav>
-          
-<Nav>
-  
 
-{user.token !== undefined ? (
+          <Nav>
+
+            <Nav.Link
+              disabled={isLoadingCart}
+              onClick={() => dispatch(setIsCartVisible(true))}
+
+            >
+              <FontAwesomeIcon icon={faCartShopping} />
+              <span className="notify-pop badge text-bg">
+                {counterCart.length > 9 ? `+9` : counterCart.length}
+              </span>
+            </Nav.Link>
+            {user.token !== undefined ? (
               <>
                 <Nav.Link to="/purchases" as={Link}>
-               
-                <FontAwesomeIcon icon={faStore} />  Purchases  
+
+                  <FontAwesomeIcon icon={faStore} />  Purchases
                 </Nav.Link>
                 <Nav.Link to="/profile" as={Link}>
                   {user.token !== undefined
-                    ?<>
-                    <FontAwesomeIcon icon={faUser} /> 
-                   {" "} {user.user.firstName} {user.user.lastName}
-                    </> 
+                    ? <>
+                      <FontAwesomeIcon icon={faUser} />
+                      {" "} {user.user.firstName} {user.user.lastName}
+                    </>
                     : console.log("pos nah")}
                 </Nav.Link>
 
@@ -80,23 +89,14 @@ const NavBar = () => {
                 </Nav.Link>
               </>
             )}
- <Nav.Link
-              disabled={isLoadingCart}
-              onClick={() => dispatch(setIsCartVisible(true))}
-             
-            >
-              <FontAwesomeIcon icon={faCartShopping} />
-              <span className="notify-pop badge text-bg">
-                {counterCart.length > 9 ? `+9` : counterCart.length}
-              </span>
-            </Nav.Link>
 
-</Nav>
-           
-         
+
+          </Nav>
+
+
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </Navbar >
   );
 };
 
