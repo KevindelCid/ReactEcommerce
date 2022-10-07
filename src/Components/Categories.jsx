@@ -80,10 +80,7 @@ const Categories = ({ setFilteredProducts, setIsVisibleFilterSide }) => {
           </Accordion.Body>
         </Accordion.Item>
 
-
-
-
-        <Accordion.Item eventKey="2">
+        {/* <Accordion.Item eventKey="2">
           <Accordion.Header>Advance filter</Accordion.Header>
           <Accordion.Body>
          <h2>Advance Search</h2>
@@ -135,7 +132,7 @@ const Categories = ({ setFilteredProducts, setIsVisibleFilterSide }) => {
               Search parameters
             </Button>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
       </Accordion>
     </div>
   );
