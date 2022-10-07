@@ -24,7 +24,7 @@ export const cartSlice = createSlice({
       // localStorage.setItem("cart", JSON.stringify([...state, action.payload]));
       return [...state, action.payload];
     },
-    changeCartFor: (state, action)=>{
+    changeCartFor: (state, action) => {
       return action.payload;
     },
     deleteProduct: (state, action) => {
@@ -71,7 +71,8 @@ const Toast = Swal.mixin({
   },
 });
 
-export const addProductQuantityOnCartUserThunk = (product, quantity, type) => (dispatch) => {
+export const addProductQuantityOnCartUserThunk =
+  (product, quantity, type) => (dispatch) => {
     if (type === "addition") {
       // agrego uno del producto
 
@@ -82,7 +83,7 @@ export const addProductQuantityOnCartUserThunk = (product, quantity, type) => (d
           getConfig()
         )
         .then(() => {
-          dispatch(getCartThunk())
+          dispatch(getCartThunk());
         })
         .catch((error) => console.log(error));
     } else if (type === "subtraction" && quantity >= 2) {
@@ -95,7 +96,7 @@ export const addProductQuantityOnCartUserThunk = (product, quantity, type) => (d
         )
         .then(() => {
           // alert("se restó un product");
-          dispatch(getCartThunk())
+          dispatch(getCartThunk());
         })
         .catch((error) => console.log(error));
     }
@@ -119,8 +120,8 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
           { id: id, newQuantity: newQuantity },
           getConfig()
         )
-        .then(()=>{
-          dispatch(getCartThunk())
+        .then(() => {
+          dispatch(getCartThunk());
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -174,7 +175,6 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
       let key = "";
       cartServer.map(async (ne) => {
         if (item.id === ne.id && key === "") {
-          
           const newQuantity = ne.productsInCart?.quantity + item?.quantity;
           const id = item.id;
           //actualizo los datos
@@ -257,7 +257,7 @@ export const getCartThunk = () => (dispatch) => {
     .then((res) => dispatch(getCart(res.data.data.cart.products)))
     .catch((error) => {
       if (error.response.status === 404) {
-        alert("el carrito esta vacion");
+        // alert("el carrito esta vacion");
       }
     });
 };
@@ -297,128 +297,108 @@ export const purchaseCartThunk = () => (dispatch) => {
     });
 };
 
+export const addProductLocalQuantity = (product, quantity) => (dispatch) => {
+  // Agregamos productos al carrito local segun la cantidad especificada en product/:id
 
-export const addProductLocalQuantity = ( product,quantity) => dispatch =>{
-// Agregamos productos al carrito local segun la cantidad especificada en product/:id 
-
-for(let i = 1; i<= quantity; i++){
-  dispatch(addProduct(product))
-}
-
-
-
-// console.log(product)
-// console.log(cart)
-// if(!cart){
-// alert('el producto es nuevo porque el carrito essta vacio')
-// }
-// else{
-
-//   const found = cart.find(cartProd => cartProd.id === product.id)
-  
-// if(found){
-//   // el producto ya esta en el carrito, actualizamos
-//   for(let i = 1; i<= quantity; i++){
-//     dispatch(addProduct(product))
-//   }
-// }
-// else{
-//   // el producto no esta en el carrito, agregamos
-
-
-//   for(let i = 1; i<= quantity; i++){
-//     dispatch(addProduct(product))
-//   }
-
-// }
-
-// }
- 
-
-
-
-
-
-
-
-};
-
-
-export const  addProductsQuantityUserThunk =  (productId, quantity)  => async dispatch => {
-
-
-  try {
- 
-    dispatch(setIsLoading(true));
-    const cartOnServer = await axios.get(
-      "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
-      getConfig()
-    );
-    const cartServer = cartOnServer.data.data.cart.products;
-    
-      const found = cartServer.find(product => product.id === productId)
-      if(found){
-        // vamos solo a actualizar
-       
-        axios.patch(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
-          { id: productId, newQuantity: quantity + found.productsInCart.quantity },
-          getConfig()
-        )
-        .then(()=>{
-          dispatch(getCartThunk())
-          dispatch(setIsLoading(false));
-        })
-        .catch(err =>console.log(err))
-      }
-      else{
-        //vamos a agregar como nuevo producto
-        axios.post(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
-          { id: productId, quantity: quantity },
-          getConfig()
-        )
-        .then(()=>{
-          dispatch(getCartThunk())
-          dispatch(setIsLoading(false));
-        })
-        .catch(err =>console.log(err))
-
-
-
-      }
-
-  } catch (error) {
-    console.log(error)
-    if (error.response?.status === 404) {
-      axios.post(
-        "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
-        { id: productId, quantity: quantity },
-        getConfig()
-      )
-      .then(()=>{
-        dispatch(getCartThunk())
-        dispatch(setIsLoading(false));
-      })
-      .catch(err =>console.log(err))
-
-    }
+  for (let i = 1; i <= quantity; i++) {
+    dispatch(addProduct(product));
   }
 
+  // console.log(product)
+  // console.log(cart)
+  // if(!cart){
+  // alert('el producto es nuevo porque el carrito essta vacio')
+  // }
+  // else{
 
-}
+  //   const found = cart.find(cartProd => cartProd.id === product.id)
 
+  // if(found){
+  //   // el producto ya esta en el carrito, actualizamos
+  //   for(let i = 1; i<= quantity; i++){
+  //     dispatch(addProduct(product))
+  //   }
+  // }
+  // else{
+  //   // el producto no esta en el carrito, agregamos
 
-export const deleteLocalProductCart = (productId, cart) => dispatch =>{
+  //   for(let i = 1; i<= quantity; i++){
+  //     dispatch(addProduct(product))
+  //   }
 
-  const filterWithoutProduct = cart.filter(product => product.id !== productId)
+  // }
 
+  // }
+};
 
-  console.log(filterWithoutProduct)
-  dispatch(changeCartFor(filterWithoutProduct))
+export const addProductsQuantityUserThunk =
+  (productId, quantity) => async (dispatch) => {
+    try {
+      dispatch(setIsLoading(true));
+      const cartOnServer = await axios.get(
+        "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+        getConfig()
+      );
+      const cartServer = cartOnServer.data.data.cart.products;
 
-}
+      const found = cartServer.find((product) => product.id === productId);
+      if (found) {
+        // vamos solo a actualizar
 
+        axios
+          .patch(
+            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            {
+              id: productId,
+              newQuantity: quantity + found.productsInCart.quantity,
+            },
+            getConfig()
+          )
+          .then(() => {
+            dispatch(getCartThunk());
+            dispatch(setIsLoading(false));
+          })
+          .catch((err) => console.log(err));
+      } else {
+        //vamos a agregar como nuevo producto
+        axios
+          .post(
+            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            { id: productId, quantity: quantity },
+            getConfig()
+          )
+          .then(() => {
+            dispatch(getCartThunk());
+            dispatch(setIsLoading(false));
+          })
+          .catch((err) => console.log(err));
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response?.status === 404) {
+        axios
+          .post(
+            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            { id: productId, quantity: quantity },
+            getConfig()
+          )
+          .then(() => {
+            dispatch(getCartThunk());
+            dispatch(setIsLoading(false));
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  };
+
+export const deleteLocalProductCart = (productId, cart) => (dispatch) => {
+  const filterWithoutProduct = cart.filter(
+    (product) => product.id !== productId
+  );
+
+  console.log(filterWithoutProduct);
+  dispatch(changeCartFor(filterWithoutProduct));
+};
 
 export const {
   setCart,

@@ -135,7 +135,7 @@ const Login = () => {
                 );
               } else if (result.dismiss === Swal.DismissReason.cancel) {
                 dispatch(deleteCart());
-                dispatch(getCartThunk())
+                dispatch(getCartThunk());
                 swalWithBootstrapButtons.fire(
                   "Cancelled",
                   "the data of the previous cart has been deleted.",
@@ -240,9 +240,9 @@ const Login = () => {
                   <FontAwesomeIcon icon={faEye} />
                 </button>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
-              </Form.Group>
+              </Form.Group> */}
 
               <Button
                 disabled={isLoadingCart}

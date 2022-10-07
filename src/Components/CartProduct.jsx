@@ -21,11 +21,14 @@ const CartProduct = ({ product, count }) => {
   return (
     <li className="li-cart">
       <div className="contador">
-<div>
+        <div>
+<div className="titulo-cart">
       <img className="img-cart" src={product.productImgs[0]} width="50"  alt={product.title} />
+      <br />
       {product.title}
       <br />
-        <span className="quantity">Quantitysdds</span>
+     </div>
+        <span className="quantity"> <strong>Quantity</strong> </span>
         <br />
         <div className="div-contador">
           <button
@@ -83,7 +86,7 @@ const CartProduct = ({ product, count }) => {
           </button>
 </div>
         </div>
-        <div>
+        <div className="trash-cart">
         <FontAwesomeIcon
           onClick={() => {
             if(user){
@@ -99,7 +102,7 @@ const CartProduct = ({ product, count }) => {
         </div>
       </div>
       <div className="price-cart">
-      Total: ${product.price * quantity}
+      Total: <strong>${product.price * quantity}</strong> 
       </div>
     </li>
   );

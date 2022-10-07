@@ -1,0 +1,60 @@
+.profile{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+   background-color: white;
+    width: 400px;
+    padding: 50px;
+    border-radius: 30px;
+}
+
+.main-profile{
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    background-color:aliceblue;
+}
+
+.icon-user{
+    height: 200px;
+    width: auto;
+}
+
+.div-icon{
+    display: flex;
+    justify-content: center;
+}
+
+.logout{
+    background: none;
+    border: none;
+    color: #2fa8f8;
+    margin-top: 25px;
+}
+
+@media only screen and (max-width: 820px) {
+
+    .profile{
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+       background-color: white;
+        width: 200px;
+        padding: 50px;
+        border-radius: 30px;
+    }
+    
+
+    .icon-user{
+        height: 50px;
+        width: auto;
+    }
+    
+
+}
+

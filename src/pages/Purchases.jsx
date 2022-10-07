@@ -35,7 +35,7 @@ const Purchases = () => {
 
              
 
-                <p type="button" onClick={() =>  navigate(`/product/${product.id}` )
+                <p className="titulo-purchases" type="button" onClick={() =>  navigate(`/product/${product.id}` )
 
                 }>{product.title}</p>
                 <div className="quantity-purchases" type="button" onClick={() =>  navigate(`/product/${product.id}` )
