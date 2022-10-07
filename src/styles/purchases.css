@@ -1,100 +1,42 @@
-
-
-
-
-
-.fecha-purchases{
-    font-size: 15px;
+.card-purchase{
+    padding: 20px;
+    background-color: whitesmoke;
+}
+.item-container{
+    
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
     
 }
+.spac{
+    margin-top: 100px !important;
+}
 
 
 
-.div-purchases{
-display:grid;
+.element{
+
+   width: 30%;
+
 
 }
-   .my-purchases{
-margin-top: 50px;
-    margin-bottom: 50px;
-    margin-left: 107.5px;
-   }
-
-   .quantity-purchases{
-    text-align: center;
-    display: block;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid gray;
-    width: 60px;
-    height: 30px;
-    margin-left: 60px;
-    border-radius: 5px;
-   }
-
-   @media only screen and (max-width: 1000px) {
-    .product-purchase {
+.elemento-container{
+    display: flex;
+    flex-direction: row;
    
-        gap: 40px;
-        margin-top: 15px;
-      margin-left: none;
-      display: grid;  
-grid-template-columns: repeat(3,1fr);
-padding-right: 20px;
-text-align: start;
-
-      }
-      .purchases{
-        border: 1px solid gray;
-        margin: 0px 50px ;
-        border-radius: 10px;
-       padding: 15px;
-    }
-    .titulo-purchases{
-        width: 200px;
-    }
-    .my-purchases{
-        margin-top: 50px;
-            margin-bottom: 50px;
-            margin-left: 20px;
-    }
-
-    .ul-purchases{
-        border: 1px solid gray;
-    border-radius: 10px;
-       margin-left: 50px ;
-       margin-right: 50px;
-      margin-bottom: 40px;
-    }
-    
-    .quantity-purchases{
-        display: block;
-        justify-content: flex-start;
-    }
 }
-
-@media only screen and (min-width: 1000px) {
-
-    .product-purchase{
-        display: grid;  
-        grid-template-columns: repeat(3,1fr);
-        gap: 180px;
-        margin-top: 15px;
-        margin-left: 100px;
-    }
-    .purchases{
-        border: 1px solid gray;
-        margin: 0px 107.5px ;
-        border-radius: 10px;
-       padding: 15px;
-    }
-
-    .ul-purchases{
-        border: 1px solid gray;
-    border-radius: 10px;
-       margin-left: 107.5px ;
-       margin-right: 107.5px;
-      margin-bottom: 40px;
-    }
+.c{
+    text-align: center;
+}
+.product{
+    text-decoration: underline;
+    color: dimgray;
+}
+.product:hover{
+    text-decoration: underline;
+    color: rgb(1, 94, 148);
+    cursor: pointer;
 }

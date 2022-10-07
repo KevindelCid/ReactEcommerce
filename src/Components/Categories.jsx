@@ -177,7 +177,7 @@ const clearStatesAdvanceSearch = ()=>{
           </Accordion.Body>
         </Accordion.Item>
 
-        {/* <Accordion.Item eventKey="2">
+        <Accordion.Item eventKey="2">
           <Accordion.Header>Advance filter</Accordion.Header>
           <Accordion.Body>
             <h2>Advance Search</h2>
@@ -220,8 +220,9 @@ const clearStatesAdvanceSearch = ()=>{
                   className="li-on-acordion"
                 
                   onChange={() => setSelectAdvance(0)}
-                  value='0'
-                  selected
+                 
+                  defaultValue={0}
+                 
                 >
                  All products
                 </option>
@@ -248,7 +249,7 @@ const clearStatesAdvanceSearch = ()=>{
             </Button>
 
           </Accordion.Body>
-        </Accordion.Item> */}
+        </Accordion.Item>
       </Accordion>
     </div>
   );
