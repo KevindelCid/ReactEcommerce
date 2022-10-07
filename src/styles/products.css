@@ -107,11 +107,11 @@
   margin-top: 8px;
 }
 
-.price-cart {
+/*.price-cart {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-}
+}*/
 .shadow {
   box-shadow: 9px 8px 5px -5px rgba(0, 0, 0, 0.32);
   -webkit-box-shadow: 9px 8px 5px -5px rgba(0, 0, 0, 0.32);

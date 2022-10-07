@@ -261,7 +261,7 @@ li {
     display: none;
   }
 }
-@media only screen and (min-width: 820px) {
+@media only screen and (min-width: 600px) {
   .filterside-main {
     display: none;
   }
@@ -270,9 +270,31 @@ li {
   }
 
   .cart-side-principal {
-    width: 35%;
+    width: 40%;
   }
   .cart-side-close {
-    width: 65%;
+    width: 60%;
   }
+}
+
+@media only screen and (max-width: 600px) {
+  .cart-side-principal {
+    width: 50%;
+  }
+  .cart-side-close {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+.input{
+  width: 30px;
+}
+.mas{
+  display: none;
+}
+.menos{
+  display: none;
+}
+
 }
