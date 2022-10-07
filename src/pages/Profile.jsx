@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deleteCart } from '../store/slices/cart.slice';
 import { setUser } from '../store/slices/user.slice';
+import "../styles/profile.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
 
@@ -21,16 +24,23 @@ const Profile = () => {
     
 
     return (
-        <div>
-            <h1>Bienvenido {user.user.firstName} {user.user.lastName}</h1>
+        <div className='main-profile'>
 
-            {user.user.email}
-            {user.user.phone}
-            {user.user.role}
-            {user.user.status}
+        <div className='profile'>
 
+            <div className='div-icon'>
+        <FontAwesomeIcon className='icon-user' icon={faUser} />
+        </div>
+            <h1><strong> Bienvenido <br />{user.user.firstName} {user.user.lastName}</strong></h1>
 
-            <button onClick={logout}> Logout</button>
+           
+           
+         
+           
+           
+
+            <button className='logout' onClick={logout}> Logout</button>
+        </div>
         </div>
     );
 };
