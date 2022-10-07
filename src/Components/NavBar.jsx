@@ -71,7 +71,7 @@ const NavBar = () => {
               <Nav.Link to="/purchases" as={Link}>
                 Purchases
               </Nav.Link>
-              <Nav.Link to="/purchases" as={Link}>
+              <Nav.Link to="/profile" as={Link}>
                 {user.token !== undefined
                   ? `${user.user.firstName} ${user.user.lastName}`
                   : console.log("pos nah")}

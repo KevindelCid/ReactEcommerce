@@ -7,6 +7,8 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
 import {
 addProduct,
+  addProductLocalQuantity,
+  addProductsQuantityUserThunk,
   addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
@@ -118,7 +120,7 @@ const Product = () => {
                   -
                 </button>
 
-                <input type="text" className="input" value={quantity} />
+                <input type="text" className="input" onChange={e => setQuantity(e.target.value)} value={quantity} />
                 <button
                   className="mas"
                   onClick={() => setQuantity(quantity + 1)}
@@ -135,8 +137,12 @@ const Product = () => {
           <button
             className="buttom-add"
             onClick={() => {
-              if (user) alert("el usuario esta logeado actuo diferente");
-              else addQuantityProducts(quantity);
+              if (user) {
+                dispatch(addProductsQuantityUserThunk(product.id, quantity))
+              }
+              else{
+                
+                dispatch(addProductLocalQuantity(product, quantity))};
             }}
           >
             Add to cart
@@ -173,12 +179,12 @@ const Product = () => {
                         if (user) {
                           dispatch(
                             addUserProductToCartThunk({
-                              id: product.id,
+                              id: prod.id,
                               quantity: 1,
                             })
                           );
                           dispatch(getCartThunk());
-                        } else dispatch(addProduct(product));
+                        } else dispatch(addProduct(prod));
                       }}
                       className="add-cart-on-card"
                     >
@@ -223,12 +229,12 @@ const Product = () => {
                           if (user) {
                             dispatch(
                               addUserProductToCartThunk({
-                                id: product.id,
+                                id: prod.id,
                                 quantity: 1,
                               })
                             );
                             dispatch(getCartThunk());
-                          } else dispatch(addProduct(product));
+                          } else dispatch(addProduct(prod));
                         }}
                         className="add-cart-on-card"
                       >

@@ -15,6 +15,7 @@ import { setUser } from "./store/slices/user.slice";
 import SignUp from "./pages/SignUp";
 import { getCartThunk } from "./store/slices/cart.slice";
 import CartSide from "./Components/CartSide";
+import Profile from "./pages/Profile";
 
 function App() {
   const isLoading = useSelector((state) => state.isLoading);
@@ -46,6 +47,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/purchases" element={<Purchases />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="/cart" element={<Cart />} />
