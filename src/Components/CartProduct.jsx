@@ -10,101 +10,114 @@ import {
   deleteProductOnCartUserThunk,
 } from "../store/slices/cart.slice";
 import "../styles/cartproduct.css";
+import { motion } from "framer-motion";
 
 const CartProduct = ({ product, count }) => {
   const [quantity, setQuantity] = useState(count);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
   const user = localStorage.getItem("user");
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector((state) => state.cart);
 
   return (
-    <li className="li-cart">
+    <motion.li
+      className="li-cart"
+      initial={{ x: 200 }}
+      animate={{ x: 0 }}
+      exit={{ x: 200 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="contador">
         <div>
-<div className="titulo-cart">
-      <img className="img-cart" src={product.productImgs[0]} width="50"  alt={product.title} />
-      <br />
-      {product.title}
-      <br />
-     </div>
-        <span className="quantity"> <strong>Quantity</strong> </span>
-        <br />
-        <div className="div-contador">
-          <button
-            className="menos"
-            onClick={() => {
-              if (user) {
-                if (quantity >= 2) {
-                  setQuantity(quantity - 1);
+          <div className="titulo-cart">
+            <img
+              className="img-cart"
+              src={product.productImgs[0]}
+              width="50"
+              alt={product.title}
+            />
+            <br />
+            {product.title}
+            <br />
+          </div>
+          <span className="quantity">
+            {" "}
+            <strong>Quantity</strong>{" "}
+          </span>
+          <br />
+          <div className="div-contador">
+            <button
+              className="menos"
+              onClick={() => {
+                if (user) {
+                  if (quantity >= 2) {
+                    setQuantity(quantity - 1);
+                    dispatch(
+                      addProductQuantityOnCartUserThunk(
+                        product,
+                        quantity,
+                        "subtraction"
+                      )
+                    );
+                  }
+                } else {
+                  if (!quantity < 1) setQuantity(quantity - 1);
+                  let key = false;
+                  products.find((product1, index) => {
+                    if (product1.id === product?.id && key === false) {
+                      dispatch(deleteProduct(index));
+                      key = true;
+                    }
+                  });
+                }
+              }}
+            >
+              -
+            </button>
+
+            <input
+              type="text"
+              className="input"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            />
+            <button
+              className="mas"
+              onClick={() => {
+                setQuantity(quantity + 1);
+                if (user) {
+                  // aqui vamos a agregar 1 del producto seleccionado
                   dispatch(
                     addProductQuantityOnCartUserThunk(
                       product,
                       quantity,
-                      "subtraction"
+                      "addition"
                     )
                   );
-                }
-              } else {
-                if (!quantity < 1) setQuantity(quantity - 1);
-                let key = false;
-                products.find((product1, index) => {
-                  if (product1.id === product?.id && key === false) {
-                    dispatch(deleteProduct(index));
-                    key = true;
-                  }
-                });
-              }
-            }}
-          >
-            -
-          </button>
-
-          <input
-            type="text"
-            className="input"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-          <button
-            className="mas"
-            onClick={() => {
-              setQuantity(quantity + 1);
-              if (user) {
-                // aqui vamos a agregar 1 del producto seleccionado
-                dispatch(
-                  addProductQuantityOnCartUserThunk(
-                    product,
-                    quantity,
-                    "addition"
-                  )
-                );
-              } else dispatch(addProduct(product));
-            }}
-          >
-            +
-          </button>
-</div>
+                } else dispatch(addProduct(product));
+              }}
+            >
+              +
+            </button>
+          </div>
         </div>
         <div className="trash-cart">
-        <FontAwesomeIcon
-          onClick={() => {
-            if(user){
-              dispatch(deleteProductOnCartUserThunk(product.id));
-            }
-            else{
-              dispatch(deleteLocalProductCart(product.id, cart))
-            }
-            
-          }}
-          icon={faTrashCan}
-        />
+          <FontAwesomeIcon
+            onClick={() => {
+              if (user) {
+                dispatch(deleteProductOnCartUserThunk(product.id));
+              } else {
+                dispatch(deleteLocalProductCart(product.id, cart));
+              }
+            }}
+            icon={faTrashCan}
+          />
         </div>
       </div>
       <div className="price-cart">
-      Total: <strong>${product.price * quantity}</strong> 
+        Total: <strong>${product.price * quantity}</strong>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

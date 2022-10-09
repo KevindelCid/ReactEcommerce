@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router";
 import { purchaseCartThunk } from "../store/slices/cart.slice";
 import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import CartProduct from "./CartProduct";
+import { motion } from "framer-motion";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -23,15 +24,6 @@ const Cart = () => {
     return { product, count };
   });
 
-  // const getTotal = () => {
-  //   let total = 0;
-
-  //   productsCart.foreach((product) => {
-  //     total = total + product.product.price * products.count;
-  //   });
-
-  //   return total;
-  // };
   let totalPrice = 0;
 
   const displayCart = () => {
@@ -49,7 +41,12 @@ const Cart = () => {
       return (
         <>
           {" "}
-          <ul className="cartproduct-container">
+          <ul
+            className="cartproduct-container"
+            initial={{ x: 200 }}
+            animate={{ x: 0 }}
+            exit={{ x: 200 }}
+          >
             {products.map((product, index) => (
               <CartProduct
                 key={product.id + "" + index}
@@ -105,6 +102,7 @@ const Cart = () => {
                   dispatch(purchaseCartThunk());
                 } else {
                   navigate("/login");
+                  window.scrollTo(0, 0);
                   dispatch(setIsCartVisible(false));
                 }
               }}

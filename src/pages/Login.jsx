@@ -17,7 +17,7 @@ import {
 import { setIsLoadingCart } from "../store/slices/isLoadingCart.slice";
 
 import "../styles/login.css";
-
+import { motion } from "framer-motion";
 import { setUser } from "../store/slices/user.slice";
 import { Link } from "react-router-dom";
 
@@ -145,6 +145,7 @@ const Login = () => {
             });
         }
         navigate("/");
+        window.scrollTo(0, 0);
       })
       .catch((err) => {
         if (err.message === "Network Error")
@@ -171,7 +172,14 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <section className="form-login-container">
+      <motion.section
+        className="form-login-container"
+        initial={{ x: 400, scale: 0.5 }}
+        // drag="y"
+        // dragConstraints={{ top: 20, bottom: 50 }}
+        animate={{ x: 0, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Card className="card">
           <h1 className="welcome-login">
             Welcome! Enter your email and password to continue
@@ -243,15 +251,22 @@ const Login = () => {
               {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
               </Form.Group> */}
-
-              <Button
-                disabled={isLoadingCart}
-                className="submit-login"
-                variant="primary"
-                type="submit"
+              <motion.div
+                initial={{ x: -400, scale: 0.5 }}
+                // drag="y"
+                // dragConstraints={{ top: 20, bottom: 50 }}
+                animate={{ x: 0, scale: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                Submit
-              </Button>
+                <Button
+                  disabled={isLoadingCart}
+                  className="submit-login"
+                  variant="primary"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </motion.div>
             </Form>
             <div className="dont">
               Dont have an account?
@@ -305,7 +320,7 @@ const Login = () => {
       <button type="submit">Login</button>
 
     </form> */}
-      </section>
+      </motion.section>
     </div>
   );
 };

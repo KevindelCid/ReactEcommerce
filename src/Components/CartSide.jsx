@@ -1,27 +1,29 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import Cart from "./Cart";
+import { motion } from "framer-motion";
+import { Button, Offcanvas } from "react-bootstrap";
 
 const CartSide = () => {
   const dispatch = useDispatch();
 
-  return (
-    <aside className="cart-side-main">
-      <div
-        className="cart-side-close"
-        onClick={() => dispatch(setIsCartVisible(false))}
-      ></div>
+  const show = useSelector((state) => state.cartVisible);
 
-      <div className="cart-side-principal">
-        <div className="space"></div>
-        {/* <Categories
-          setFilteredProducts={setFilteredProducts}
-          setIsVisibleFilterSide={setIsVisibleFilterSide}
-        /> */}
-        <Cart />
-      </div>
-    </aside>
+  const handleClose = () => dispatch(setIsCartVisible(false));
+  const handleShow = () => dispatch(setIsCartVisible(true));
+
+  return (
+    <div>
+      <Offcanvas show={show} onHide={handleClose} {...{ placement: "end" }}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>My Cart</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Cart />
+        </Offcanvas.Body>
+      </Offcanvas>
+    </div>
   );
 };
 

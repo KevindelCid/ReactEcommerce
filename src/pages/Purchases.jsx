@@ -5,35 +5,53 @@ import moment from "moment";
 import "../styles/purchases.css";
 import { useNavigate } from "react-router";
 import { Container } from "react-bootstrap";
+import { motion } from "framer-motion";
 
+const Cart = ({ purchase }) => {
+  const navigate = useNavigate();
 
-const Cart = ({purchase})=>{
-  const navigate = useNavigate()
- 
+  return (
+    <>
+      {purchase.cart.products.map((product) => (
+        <li key={product.id} className="elemento-container">
+          <div className="element ">
+            {" "}
+            <p
+              className="product"
+              onClick={() => {
+                navigate(`/product/${product.id}`);
+                window.scrollTo(0, 0);
+              }}
+            >
+              {product.title}
+            </p>
+          </div>
 
-  return  <>
-  {
-  purchase.cart.products.map(product => (
-    <li  key={product.id} className="elemento-container">
+          <div
+            className=" element c"
+            onClick={() => {
+              navigate(`/product/${product.id}`);
+              window.scrollTo(0, 0);
+            }}
+          >
+            {product.productsInCart.quantity}
+          </div>
 
-       <div className="element "> <p className="product" onClick={() => navigate(`/product/${product.id}`)}>{product.title}</p></div>
-
-        <div className=" element c"  onClick={() => navigate(`/product/${product.id}`) } >{product.productsInCart.quantity}</div>
-
-       <div className="element"> <p><strong>${product.price * product.productsInCart.quantity}</strong></p></div>
-
-      
-  
-    </li>
-  ))}
- 
-</>
-}
-
-
+          <div className="element">
+            {" "}
+            <p>
+              <strong>
+                ${product.price * product.productsInCart.quantity}
+              </strong>
+            </p>
+          </div>
+        </li>
+      ))}
+    </>
+  );
+};
 
 const Purchases = () => {
-
   const dispatch = useDispatch();
   const purchases = useSelector((state) => state.purchases);
 
@@ -41,42 +59,51 @@ const Purchases = () => {
     dispatch(getPurschasesThunk());
   }, []);
 
-
-  
-
-
-
   return (
     <Container className="spac">
-    <section className="purchases-container">
+      <section className="purchases-container">
+        <motion.h1
+          initial={{ x: 400, scale: 0.5 }}
+          // drag="y"
+          // dragConstraints={{ top: 20, bottom: 50 }}
+          animate={{ x: 0, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          My purchases
+        </motion.h1>
 
-      <h1>My purchases</h1>
+        {purchases.map((purchase) => (
+          <article key={purchase.id}>
+            <motion.h2
+              className="card-purchase shadow"
+              initial={{ x: -400, scale: 0.5 }}
+              // drag="y"
+              // dragConstraints={{ top: 20, bottom: 50 }}
+              animate={{ x: 0, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <strong>
+                {" "}
+                {moment(purchase.createdAt).format("MMMM D, YYYY LT")}
+              </strong>
+            </motion.h2>
 
-      {purchases.map((purchase) => (
-        <article key={purchase.id}>
-
-          <h2 className="card-purchase shadow"><strong> {moment(purchase.createdAt).format("MMMM D, YYYY LT")}</strong></h2>
-
-          <ul className="card-purchase shadow item-container" >
-
-
-
-<Cart purchase={purchase} />
-
-        </ul>
-
-        </article>
-      ))}
-    </section>
+            <motion.ul
+              className="card-purchase shadow item-container"
+              initial={{ x: 400, scale: 0.5 }}
+              // drag="y"
+              // dragConstraints={{ top: 20, bottom: 50 }}
+              animate={{ x: 0, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Cart purchase={purchase} />
+            </motion.ul>
+          </article>
+        ))}
+      </section>
     </Container>
   );
 };
-
-
-
-
-
-
 
 // return (
 //   <div className="div-purchases">
@@ -86,18 +113,14 @@ const Purchases = () => {
 //       <section>
 //         <div className="purchases">
 
-
 //           <h2 className="fecha-purchases"><strong> {moment(purchase.createdAt).format("MMMM D, YYYY LT")}</strong></h2>
 //         </div>
 //         <div className="ul-purchases">
 //           <ul key={purchase.id}>
 
-
 //             {purchase.cart.products.map(product => (
 //               <li>
 //                 <div key={product.id} className="product-purchase">
-
-
 
 //                   <p className="titulo-purchases" type="button" onClick={() => navigate(`/product/${product.id}`)
 
@@ -111,7 +134,6 @@ const Purchases = () => {
 //               </li>
 //             ))}
 //             {/* [opcional] hacer esto un componente dentro de este mismo archivo y poner un total de la compra */}
-
 
 //           </ul>
 //         </div>

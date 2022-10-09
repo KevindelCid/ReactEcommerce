@@ -6,17 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "../styles/products.css";
 import {
-addProduct,
+  addProduct,
   addProductLocalQuantity,
   addProductsQuantityUserThunk,
   addUserProductToCartThunk,
   getCartThunk,
 } from "../store/slices/cart.slice";
+import { motion } from "framer-motion";
 
 const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const products = useSelector((state) => state.products);
   const product = products.find((prod) => prod.id === Number(id));
@@ -81,7 +82,14 @@ const Product = () => {
   };
   return (
     <Container>
-      <section className="product-detail-container">
+      <motion.section
+        className="product-detail-container"
+        initial={{ x: 400, scale: 0.5 }}
+        // drag="y"
+        // dragConstraints={{ top: 20, bottom: 50 }}
+        animate={{ x: 0, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Carousel className="carrousel-container">
           {product?.productImgs.map((img) => (
             <Carousel.Item interval={3000} key={img}>
@@ -104,7 +112,7 @@ const Product = () => {
               <br />
               <span className="amount">
                 {" "}
-                <strong>${product?.price}</strong>
+                <strong>${product?.price * quantity}</strong>
               </span>
             </div>
             <div className="contador">
@@ -114,13 +122,18 @@ const Product = () => {
                 <button
                   className="menos"
                   onClick={() => {
-                    if (!quantity < 1) setQuantity(quantity - 1);
+                    if (quantity >= 2) setQuantity(quantity - 1);
                   }}
                 >
                   -
                 </button>
 
-                <input type="text" className="input" onChange={e => setQuantity(e.target.value)} value={quantity} />
+                <input
+                  type="text"
+                  className="input"
+                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantity}
+                />
                 <button
                   className="mas"
                   onClick={() => setQuantity(quantity + 1)}
@@ -138,115 +151,122 @@ const Product = () => {
             className="buttom-add"
             onClick={() => {
               if (user) {
-                dispatch(addProductsQuantityUserThunk(product.id, quantity))
+                dispatch(addProductsQuantityUserThunk(product.id, quantity));
+              } else {
+                dispatch(addProductLocalQuantity(product, quantity));
               }
-              else{
-                
-                dispatch(addProductLocalQuantity(product, quantity))};
             }}
           >
             Add to cart
           </button>
         </div>
-      </section>
-      <section>
-        <h2>Articulos realcionados</h2>
-        <Row>
-          {relatedPorducts.map((prod) => (
-            <Col key={prod.id}>
-              <Card
-                onClick={() => navigate(`/product/${prod.id}`)}
-                style={{ width: "18rem" }}
-              >
-                <Card.Img
-                  variant="top"
-                  className="img-product-selected"
-                  src={prod?.productImgs}
-                />
-                <Card.Body>
-                  <Card.Title>
-                    {prod.title.length > 17
-                      ? `${prod.title.substring(0, 17)}...`
-                      : prod.title}
-                  </Card.Title>
-                  <div className="price-cart">
-                    <div>
-                      <span>Price</span>
-                      <h3>${prod.price}</h3>
-                    </div>
-                    <Button
-                      onClick={() => {
-                        if (user) {
-                          dispatch(
-                            addUserProductToCartThunk({
-                              id: prod.id,
-                              quantity: 1,
-                            })
-                          );
-                          dispatch(getCartThunk());
-                        } else dispatch(addProduct(prod));
-                      }}
-                      className="add-cart-on-card"
-                    >
-                      <FontAwesomeIcon icon={faCartShopping} />
-                    </Button>
+      </motion.section>
+      <motion.h2
+        className="title-section bottom"
+        initial={{ x: 400, scale: 0.5 }}
+        // drag="y"
+        // dragConstraints={{ top: 20, bottom: 50 }}
+        animate={{ x: 0, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        Articulos realcionados
+        <div className="sep"></div>
+      </motion.h2>
+      <div className="center">
+        <motion.section
+          className="articulos-relacionados-container secundary-card"
+          initial={{ y: 400, scale: 0.5 }}
+          // drag="y"
+          // dragConstraints={{ top: 20, bottom: 50 }}
+          animate={{ y: 0, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {relatedPorducts.map((prod, index) => (
+            <Card className="shadow" key={prod.id} style={{ width: "18rem" }}>
+              <Card.Img
+                onClick={() => {
+                  navigate(`/product/${prod.id}`);
+                  window.scrollTo(0, 0);
+                }}
+                variant="top"
+                className="img-product-selected secundary-img click"
+                src={prod?.productImgs}
+              />
+              <Card.Body>
+                <Card.Title
+                  className="click"
+                  onClick={() => {
+                    navigate(`/product/${prod.id}`);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  {prod.title.length > 17
+                    ? `${prod.title.substring(0, 17)}...`
+                    : prod.title}
+                </Card.Title>
+                <div className="price-cart">
+                  <div>
+                    <span>Price</span>
+                    <h3>${prod.price}</h3>
                   </div>
-                </Card.Body>
-              </Card>
-            </Col>
+                  <Button
+                    onClick={() => {
+                      dispatch(addProduct(prod));
+                    }}
+                    className="add-cart-on-card"
+                  >
+                    <FontAwesomeIcon icon={faCartShopping} />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
           ))}
-        </Row>
-      </section>
+        </motion.section>
+      </div>
 
-      <section>
-        <h2>Quizás te interese</h2>
-        <Row>
-          {generateRelationSearch().map((prod) => (
-            <Col key={prod.id}>
-              <Card
-                onClick={() => navigate(`/product/${prod.id}`)}
-                style={{ width: "18rem" }}
-              >
-                <Card.Img
-                  variant="top"
-                  className="img-product-selected"
-                  src={prod?.productImgs}
-                />
-                <Card.Body>
-                  <Card.Title>
-                    {prod.title.length > 17
-                      ? `${prod.title.substring(0, 17)}...`
-                      : prod.title}
-                  </Card.Title>
-                  <Row>
-                    <Col>
-                      <span>Price</span>
-                      <h3>${prod.price}</h3>
-                    </Col>
-                    <Col xs={6} md={3}>
-                      <Button
-                        onClick={() => {
-                          if (user) {
-                            dispatch(
-                              addUserProductToCartThunk({
-                                id: prod.id,
-                                quantity: 1,
-                              })
-                            );
-                            dispatch(getCartThunk());
-                          } else dispatch(addProduct(prod));
-                        }}
-                        className="add-cart-on-card"
-                      >
-                        <FontAwesomeIcon icon={faCartShopping} />
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+      <h2 className="title-section">
+        Quizás te interese
+        <div className="sep"></div>
+      </h2>
+      <section className="articulos-relacionados-container  secundary-card">
+        {generateRelationSearch().map((prod) => (
+          <Card
+            className="shadow"
+            key={prod.id}
+            onClick={() => {
+              navigate(`/product/${prod.id}`);
+              window.scrollTo(0, 0);
+            }}
+            style={{ width: "18rem" }}
+          >
+            <Card.Img
+              variant="top"
+              className="img-product-selected secundary-img click"
+              src={prod?.productImgs}
+            />
+            <Card.Body>
+              <Card.Title className="click">
+                {prod.title.length > 17
+                  ? `${prod.title.substring(0, 17)}...`
+                  : prod.title}
+              </Card.Title>
+              <div className="price-cart">
+                <div>
+                  <span>Price</span>
+                  <h3>${prod.price}</h3>
+                </div>
+                <Button
+                  onClick={() => {
+                    dispatch(addProduct(prod));
+                  }}
+                  className="add-cart-on-card"
+                >
+                  <FontAwesomeIcon icon={faCartShopping} />
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        ))}
       </section>
     </Container>
   );

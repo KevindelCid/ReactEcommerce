@@ -11,6 +11,7 @@ import {
   getCartThunk,
 } from "../store/slices/cart.slice";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 const Product = ({ filteredProducts, setProductFiltered }) => {
   const products = useSelector((state) => state.products);
@@ -22,26 +23,50 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
   useEffect(() => {}, []);
 
   return (
-    <section className="section-products">
+    <motion.section
+      className="section-products"
+      initial={{ y: -200 }}
+      // drag="y"
+      // dragConstraints={{ top: 20, bottom: 50 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <h2>Explore our products</h2>
 
       <div className="contaniner-products">
         {filteredProducts.map((product) => (
-          <div key={product.id}>
+          <motion.div
+            key={product.id}
+            initial={{ x: 400, scale: 0.5 }}
+            // drag="y"
+            // dragConstraints={{ top: 20, bottom: 50 }}
+            animate={{ x: 0, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <Card className="shadow" style={{ width: "18rem" }}>
-              <Card.Img
-                className="click"
-                onClick={() => {
-                  navigate(`/product/${product.id}`);
-                  window.scrollTo(0, 0);
-                }}
-                variant="top"
-                src={product.productImgs[0]}
-              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+              >
+                <Card.Img
+                  className="click"
+                  onClick={() => {
+                    navigate(`/product/${product.id}`);
+                    window.scrollTo(0, 0);
+                  }}
+                  variant="top"
+                  src={product.productImgs[0]}
+                />
+              </motion.div>
               <Card.Body>
                 <Card.Title
                   className="click"
-                  onClick={() => navigate(`/product/${product.id}`)}
+                  onClick={() => {
+                    navigate(`/product/${product.id}`);
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   {" "}
                   {product.title?.length > 20
@@ -77,10 +102,10 @@ const Product = ({ filteredProducts, setProductFiltered }) => {
                 </Row>
               </Card.Body>
             </Card>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -12,6 +12,7 @@ import Products from "../Components/Products";
 import { addProduct, getCartThunk } from "../store/slices/cart.slice";
 import { setIsCartVisible } from "../store/slices/cartIsVisible.slice";
 import { getProductsThunk } from "../store/slices/products.slice";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -67,7 +68,14 @@ const Home = () => {
       </section>
       <section className="products-section">
         {/* //buscador */}
-        <section className="search-container">
+        <motion.section
+          className="search-container"
+          initial={{ x: 400, scale: 0.5 }}
+          // drag="y"
+          // dragConstraints={{ top: 20, bottom: 50 }}
+          animate={{ x: 0, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <input
             className="search-input d-flex justify-content-center"
             placeholder="Search Products"
@@ -79,7 +87,7 @@ const Home = () => {
             <FontAwesomeIcon icon={faFilter} />
           </button>
           <small>{`${filteredProducts.length} items found`}</small>
-        </section>
+        </motion.section>
 
         <Products
           filteredProducts={filteredProducts}

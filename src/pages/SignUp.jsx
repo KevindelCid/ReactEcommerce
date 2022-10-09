@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import "../styles/signup.css";
-
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -39,6 +39,7 @@ const SignUp = () => {
           // footer: '<a href="">Why do I have this issue?</a>'
         });
         navigate("/login");
+        window.scrollTo(0, 0);
       })
       .catch((err) => {
         if (err.message === "Network Error")
@@ -61,9 +62,26 @@ const SignUp = () => {
 
   return (
     <div className="login-container">
-      <section className="form-login-container">
+      <motion.section
+        className="form-login-container"
+        initial={{ x: -400, scale: 0.5 }}
+        // drag="y"
+        // dragConstraints={{ top: 20, bottom: 50 }}
+        animate={{ x: 0, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <Card className="card">
-          <h1 className="welcome-login"> Sign Up</h1>
+          <motion.h1
+            className="welcome-login"
+            initial={{ x: 400, scale: 0.5 }}
+            // drag="y"
+            // dragConstraints={{ top: 20, bottom: 50 }}
+            animate={{ x: 0, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {" "}
+            Sign Up
+          </motion.h1>
 
           <Card.Body>
             <Form onSubmit={handleSubmit(submit)}>
@@ -112,7 +130,7 @@ const SignUp = () => {
                   placeholder="Password"
                   required
                 />
-                <button
+                <motion.button
                   className="password-eye"
                   type="button"
                   onClick={() =>
@@ -120,9 +138,14 @@ const SignUp = () => {
                       ? setinputType("text")
                       : setinputType("password")
                   }
+                  initial={{ y: 400, scale: 0.5 }}
+                  // drag="y"
+                  // dragConstraints={{ top: 20, bottom: 50 }}
+                  animate={{ y: 0, scale: 1 }}
+                  transition={{ duration: 0.5 }}
                 >
                   <FontAwesomeIcon icon={faEye} />
-                </button>
+                </motion.button>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="phone">
@@ -136,9 +159,21 @@ const SignUp = () => {
                 />
               </Form.Group>
 
-              <Button className="submit-signup" variant="primary" type="submit">
-                SignUp
-              </Button>
+              <motion.div
+                initial={{ y: 400, scale: 0.5 }}
+                // drag="y"
+                // dragConstraints={{ top: 20, bottom: 50 }}
+                animate={{ y: 0, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Button
+                  className="submit-signup"
+                  variant="primary"
+                  type="submit"
+                >
+                  SignUp
+                </Button>
+              </motion.div>
             </Form>
             <div className="already">
               Already have an account?
@@ -150,7 +185,7 @@ const SignUp = () => {
             </div>
           </Card.Body>
         </Card>
-      </section>
+      </motion.section>
     </div>
   );
 };
