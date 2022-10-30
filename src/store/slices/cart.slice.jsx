@@ -78,7 +78,7 @@ export const addProductQuantityOnCartUserThunk =
 
       axios
         .patch(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          " https://e-commerce-api.academlo.tech/api/v1/cart",
           { id: product.id, newQuantity: quantity + 1 },
           getConfig()
         )
@@ -90,7 +90,7 @@ export const addProductQuantityOnCartUserThunk =
       // elimino uno del producto
       axios
         .patch(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          "https://e-commerce-api.academlo.tech/api/v1/cart",
           { id: product.id, newQuantity: quantity - 1 },
           getConfig()
         )
@@ -116,7 +116,7 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
       //actualizo los datos
       axios
         .patch(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          " https://e-commerce-api.academlo.tech/api/v1/cart",
           { id: id, newQuantity: newQuantity },
           getConfig()
         )
@@ -134,7 +134,7 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
       // aqui voy a crear
       axios
         .post(
-          "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+          "https://e-commerce-api.academlo.tech/api/v1/cart",
           { id: product.id, quantity: 1 },
           getConfig()
         )
@@ -151,7 +151,7 @@ export const addUserProductToCartThunk = (product) => async (dispatch) => {
 
   try {
     const cartOnServer = await axios.get(
-      "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+      "https://e-commerce-api.academlo.tech/api/v1/cart",
       getConfig()
     );
     const cartServer = cartOnServer.data.data.cart.products;
@@ -180,7 +180,7 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
           //actualizo los datos
           promises.push(
             axios.patch(
-              "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+              " https://e-commerce-api.academlo.tech/api/v1/cart",
               { id: id, newQuantity: newQuantity },
               getConfig()
             )
@@ -194,7 +194,7 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
 
         promises.push(
           axios.post(
-            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            "https://e-commerce-api.academlo.tech/api/v1/cart",
             { id: item.id, quantity: item.quantity },
             getConfig()
           )
@@ -206,7 +206,7 @@ export const migrateLocalCartThunk = (products) => async (dispatch) => {
 
   try {
     const cartOnServer = await axios.get(
-      "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+      "https://e-commerce-api.academlo.tech/api/v1/cart",
       getConfig()
     );
     const cartServer = cartOnServer.data.data.cart.products;
@@ -242,7 +242,7 @@ export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
   dispatch(setIsLoading(true));
   axios
     .delete(
-      `https://ecommerce-api-react.herokuapp.com/api/v1/cart/${idProduct}`,
+      `https://e-commerce-api.academlo.tech/api/v1/cart/${idProduct}`,
       getConfig()
     )
     .then(() => {
@@ -253,7 +253,7 @@ export const deleteProductOnCartUserThunk = (idProduct) => (dispatch) => {
 
 export const getCartThunk = () => (dispatch) => {
   axios
-    .get("https://ecommerce-api-react.herokuapp.com/api/v1/cart", getConfig())
+    .get("https://e-commerce-api.academlo.tech/api/v1/cart", getConfig())
     .then((res) => dispatch(getCart(res.data.data.cart.products)))
     .catch((error) => {
       if (error.response.status === 404) {
@@ -265,7 +265,7 @@ export const purchaseCartThunk = () => (dispatch) => {
   dispatch(setIsLoading(true));
   axios
     .post(
-      "https://ecommerce-api-react.herokuapp.com/api/v1/purchases",
+      "https://e-commerce-api.academlo.tech/api/v1/purchases",
       {},
       getConfig()
     )
@@ -336,7 +336,7 @@ export const addProductsQuantityUserThunk =
     try {
       dispatch(setIsLoading(true));
       const cartOnServer = await axios.get(
-        "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+        "https://e-commerce-api.academlo.tech/api/v1/cart",
         getConfig()
       );
       const cartServer = cartOnServer.data.data.cart.products;
@@ -347,7 +347,7 @@ export const addProductsQuantityUserThunk =
 
         axios
           .patch(
-            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            "https://e-commerce-api.academlo.tech/api/v1/cart",
             {
               id: productId,
               newQuantity: quantity + found.productsInCart.quantity,
@@ -363,7 +363,7 @@ export const addProductsQuantityUserThunk =
         //vamos a agregar como nuevo producto
         axios
           .post(
-            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            "https://e-commerce-api.academlo.tech/api/v1/cart",
             { id: productId, quantity: quantity },
             getConfig()
           )
@@ -378,7 +378,7 @@ export const addProductsQuantityUserThunk =
       if (error.response?.status === 404) {
         axios
           .post(
-            "https://ecommerce-api-react.herokuapp.com/api/v1/cart",
+            "https://e-commerce-api.academlo.tech/api/v1/cart",
             { id: productId, quantity: quantity },
             getConfig()
           )

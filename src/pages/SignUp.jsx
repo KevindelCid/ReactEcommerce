@@ -29,7 +29,7 @@ const SignUp = () => {
   const submit = (data) => {
     data.role = "admin";
     axios
-      .post("https://ecommerce-api-react.herokuapp.com/api/v1/users", data)
+      .post("https://e-commerce-api.academlo.tech/api/v1/users", data)
       .then((res) => {
         console.log(res.data);
         Swal.fire({

@@ -41,10 +41,7 @@ const Login = () => {
   const submit = (data) => {
     dispatch(setIsLoadingCart(true));
     axios
-      .post(
-        "https://ecommerce-api-react.herokuapp.com/api/v1/users/login",
-        data
-      )
+      .post("https://e-commerce-api.academlo.tech/api/v1/users/login", data)
       .then((res) => {
         dispatch(setUser(res.data.data));
         localStorage.setItem("user", JSON.stringify(res.data.data));

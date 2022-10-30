@@ -18,9 +18,7 @@ const Categories = ({ setFilteredProducts, setIsVisibleFilterSide }) => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://ecommerce-api-react.herokuapp.com/api/v1/products/categories`
-      )
+      .get(`https://e-commerce-api.academlo.tech/api/v1/products/categories`)
       .then((res) => setCategories(res.data.data.categories));
   }, []);
 
