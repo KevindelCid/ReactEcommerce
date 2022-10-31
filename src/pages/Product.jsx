@@ -190,7 +190,7 @@ const Product = () => {
                 }}
                 variant="top"
                 className="img-product-selected secundary-img click"
-                src={prod?.productImgs}
+                src={prod?.productImgs[0]}
               />
               <Card.Body>
                 <Card.Title
@@ -211,7 +211,15 @@ const Product = () => {
                   </div>
                   <Button
                     onClick={() => {
-                      dispatch(addProduct(prod));
+                      if (user) {
+                        dispatch(
+                          addUserProductToCartThunk({
+                            id: prod.id,
+                            quantity: 1,
+                          })
+                        );
+                        dispatch(getCartThunk());
+                      } else dispatch(addProduct(prod));
                     }}
                     className="add-cart-on-card"
                   >
@@ -242,7 +250,7 @@ const Product = () => {
             <Card.Img
               variant="top"
               className="img-product-selected secundary-img click"
-              src={prod?.productImgs}
+              src={prod?.productImgs[0]}
             />
             <Card.Body>
               <Card.Title className="click">
@@ -257,7 +265,15 @@ const Product = () => {
                 </div>
                 <Button
                   onClick={() => {
-                    dispatch(addProduct(prod));
+                    if (user) {
+                      dispatch(
+                        addUserProductToCartThunk({
+                          id: prod.id,
+                          quantity: 1,
+                        })
+                      );
+                      dispatch(getCartThunk());
+                    } else dispatch(addProduct(prod));
                   }}
                   className="add-cart-on-card"
                 >
